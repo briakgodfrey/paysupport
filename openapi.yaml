@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: PaySupport API
+  version: 1.0.0
+  description: >
+    Transaction diagnostics & reconciliation API for a fintech support
+    engineering portfolio project. Simulates the workflow of investigating
+    customer complaints by cross-referencing internal SQL records against a
+    vendor (card/ACH processor) API.
+servers:
+  - url: http://localhost:4000
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Account:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        customer_name: { type: string }
+        email: { type: string }
+        account_type: { type: string, enum: [checking, savings, credit] }
+        balance_cents: { type: integer }
+        status: { type: string, enum: [active, frozen, closed] }
+        created_at: { type: string, format: date-time }
+    Transaction:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        account_id: { type: string, format: uuid }
+        card_id: { type: string, format: uuid, nullable: true }
+        type: { type: string, enum: [card_purchase, ach_credit, ach_debit, transfer] }
+        amount_cents: { type: integer }
+        status: { type: string, enum: [pending, settled, failed, disputed] }
+        vendor_ref_id: { type: string, nullable: true }
+        vendor_status: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+    DiagnosisReport:
+      type: object
+      properties:
+        transactionId: { type: string, format: uuid }
+        outcome:
+          type: string
+          enum: [match, status_mismatch, amount_mismatch, vendor_not_found, vendor_unavailable, no_vendor_ref]
+        internal: { type: object }
+        vendor: { type: object, nullable: true }
+        notes: { type: string }
+paths:
+  /auth/login:
+    post:
+      summary: Log in and receive a JWT
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        "200": { description: OK }
+        "401": { description: Invalid credentials }
+  /accounts:
+    get:
+      summary: List accounts
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create an account
+      responses:
+        "201": { description: Created }
+  /accounts/{id}:
+    get:
+      summary: Get an account by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+        "404": { description: Not found }
+  /accounts/{id}/transactions:
+    get:
+      summary: List transactions for an account
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+  /transactions:
+    get:
+      summary: List transactions
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create a transaction (registers with vendor)
+      responses:
+        "201": { description: Created }
+  /transactions/{id}:
+    get:
+      summary: Get a transaction by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+  /transactions/{id}/diagnose:
+    get:
+      summary: Diagnose a single transaction against the vendor's live record
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Diagnosis report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosisReport"
+  /tickets:
+    get:
+      summary: List support tickets
+      responses:
+        "200": { description: OK }
+    post:
+      summary: Create a support ticket
+      responses:
+        "201": { description: Created }
+  /tickets/{id}:
+    get:
+      summary: Get a ticket by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: OK }
+  /reconciliation/run:
+    post:
+      summary: Sweep recent transactions and record new discrepancies (engineer/admin only)
+      responses:
+        "200": { description: Reconciliation summary }
+  /reconciliation/discrepancies:
+    get:
+      summary: List reconciliation discrepancies
+      parameters:
+        - name: resolved
+          in: query
+          schema: { type: boolean }
+      responses:
+        "200": { description: OK }
+  /audit-log:
+    get:
+      summary: List audit log entries
+      responses:
+        "200": { description: OK }

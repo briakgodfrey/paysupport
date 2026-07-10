@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: paysupport
+      POSTGRES_PASSWORD: paysupport
+      POSTGRES_DB: paysupport
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paysupport -d paysupport"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  vendor-mock:
+    build: ./vendor-mock
+    ports:
+      - "4100:4100"
+    environment:
+      PORT: 4100
+
+  api:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      NODE_ENV: production
+      JWT_SECRET: docker-compose-dev-secret
+      JWT_EXPIRES_IN: 8h
+      PGHOST: postgres
+      PGPORT: 5432
+      PGUSER: paysupport
+      PGPASSWORD: paysupport
+      PGDATABASE: paysupport
+      VENDOR_API_URL: http://vendor-mock:4100
+      VENDOR_API_KEY: vendor-sandbox-key
+    depends_on:
+      postgres:
+        condition: service_healthy
+      vendor-mock:
+        condition: service_started
+
+volumes:
+  pg_data:
