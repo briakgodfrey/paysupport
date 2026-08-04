@@ -1,7 +1,0 @@
-node_modules/
-dist/
-.env
-*.log
-coverage/
-vendor-mock/node_modules/
-vendor-mock/dist/
