@@ -21,4 +21,4 @@ psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -f "$ROOT_DIR/db/sc
 echo "==> Loading seed data"
 psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -f "$ROOT_DIR/db/seed.sql"
 
-echo "==> Done. Login with admin@paysupport.dev / password123"
+echo "==> Done. Log in as admin@, engineer@, or support@paysupport.dev with password123"
