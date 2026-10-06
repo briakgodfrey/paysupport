@@ -5,3 +5,5 @@ dist/
 coverage/
 vendor-mock/node_modules/
 vendor-mock/dist/
+   tests/*.js
+   tests/*.js.map

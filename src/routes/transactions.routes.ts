@@ -58,9 +58,9 @@ router.get(
  *
  * The centerpiece endpoint: pulls the internal record (with account + card
  * context via SQL joins), calls the vendor live, and returns a structured
- * diff. This is the "research a customer complaint using SQL and API calls"
- * workflow from the job description, as a single reusable endpoint instead
- * of a one-off manual investigation every time.
+  * diff. It turns the "research a customer complaint using SQL and API
+  * calls" workflow into one reusable endpoint instead of a one-off manual
+  * investigation every time.
  */
 router.get(
   "/:id/diagnose",
