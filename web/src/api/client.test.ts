@@ -120,7 +120,7 @@ describe("createApiClient", () => {
     const result = await getThing(createApiClient({ getToken: () => TEST_TOKEN, onUnauthorized }));
 
     expect(result).toMatchObject({ ok: false, error: { kind: "unauthorized" } });
-    expect(onUnauthorized).toHaveBeenCalledOnce();
+    expect(onUnauthorized).toHaveBeenCalledExactlyOnceWith(TEST_TOKEN);
   });
 
   it("does not end a session on a 401 without a token, such as a failed sign-in", async () => {

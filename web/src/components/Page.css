@@ -1,0 +1,14 @@
+/*
+ * Page: vertical rhythm for a page's heading and its sections.
+ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.page__title {
+  /* Pages focus their heading on navigation; keep the scroll position sensible when they do. */
+  scroll-margin-top: var(--space-5);
+}

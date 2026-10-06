@@ -1,0 +1,50 @@
+/*
+ * Text field: label, hint, error message, and input, stacked in reading
+ * order. The error sits above the input so it's read before the user
+ * starts typing a correction.
+ */
+
+.text-field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.text-field__label {
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-field__hint {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.text-field__error {
+  color: var(--color-danger-fg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-field__control {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.text-field__input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--size-touch-target);
+  padding: 0 var(--space-3);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  /* 16px minimum stops iOS Safari from zooming the page when the field gets focus. */
+  font: inherit;
+  font-size: var(--font-size-md);
+}
+
+/* A thicker border marks the invalid field, in addition to the error text above it. */
+.text-field[data-invalid] .text-field__input {
+  border-color: var(--color-danger-fg);
+  border-width: var(--border-width-strong);
+}

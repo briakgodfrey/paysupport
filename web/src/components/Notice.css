@@ -1,0 +1,38 @@
+/*
+ * Notice: inline message boxes for info, success, and error messages.
+ * The left rule and the bold title make each one read as a message even
+ * without its colour.
+ */
+
+.notice {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid currentColor;
+  border-left-width: var(--border-width-accent);
+  border-radius: var(--radius-md);
+}
+
+.notice--info {
+  background: var(--color-info-bg);
+  color: var(--color-info-fg);
+}
+
+.notice--success {
+  background: var(--color-success-bg);
+  color: var(--color-success-fg);
+}
+
+.notice--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-fg);
+}
+
+.notice__title {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Body text uses the main text colour for comfortable reading; the title carries the tone. */
+.notice__body {
+  color: var(--color-text);
+}
