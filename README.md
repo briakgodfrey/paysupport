@@ -81,7 +81,7 @@ TOKEN=$(curl -s -X POST localhost:4000/auth/login \
 
 # Diagnose a transaction the seed data knows is drifted (vendor settled it,
 # internal DB still says "pending")
-curl -s localhost:4000/transactions/t1111111-0000-0000-0000-000000000002/diagnose \
+curl -s localhost:4000/transactions/e1111111-0000-0000-0000-000000000002/diagnose \
   -H "Authorization: Bearer $TOKEN" | jq
 
 # Or sweep everything at once

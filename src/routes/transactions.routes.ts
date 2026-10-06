@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { asyncHandler } from "../middleware/errorHandler";
-import { validateBody } from "../middleware/validate";
+import { idParamsSchema, validateBody, validateParams } from "../middleware/validate";
 import { requireAuth } from "../middleware/auth";
 import { createTransaction, getTransactionById, listTransactions } from "../services/transaction.service";
 import { diagnoseTransaction } from "../services/reconciliation.service";
@@ -47,6 +47,7 @@ router.post(
 /** GET /transactions/:id */
 router.get(
   "/:id",
+  validateParams(idParamsSchema),
   asyncHandler(async (req, res) => {
     const transaction = await getTransactionById(req.params.id);
     res.json(transaction);
@@ -64,6 +65,7 @@ router.get(
  */
 router.get(
   "/:id/diagnose",
+  validateParams(idParamsSchema),
   asyncHandler(async (req, res) => {
     const report = await diagnoseTransaction(req.params.id);
     await recordAudit(req.user!.id, "transaction.diagnosed", "transaction", req.params.id, {
