@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { asyncHandler } from "../middleware/errorHandler";
-import { validateBody } from "../middleware/validate";
+import { idParamsSchema, validateBody, validateParams } from "../middleware/validate";
 import { requireAuth } from "../middleware/auth";
 import { createAccount, getAccountById, getAccountTransactions, listAccounts } from "../services/account.service";
 import { recordAudit } from "../utils/audit";
@@ -40,6 +40,7 @@ router.post(
 /** GET /accounts/:id */
 router.get(
   "/:id",
+  validateParams(idParamsSchema),
   asyncHandler(async (req, res) => {
     const account = await getAccountById(req.params.id);
     res.json(account);
@@ -49,6 +50,7 @@ router.get(
 /** GET /accounts/:id/transactions?limit=&offset= */
 router.get(
   "/:id/transactions",
+  validateParams(idParamsSchema),
   asyncHandler(async (req, res) => {
     const limit = Math.min(Number(req.query.limit ?? 25), 100);
     const offset = Number(req.query.offset ?? 0);

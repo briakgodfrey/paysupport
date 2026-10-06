@@ -87,6 +87,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200": { description: OK }
+        "400": { description: Malformed id }
         "404": { description: Not found }
   /accounts/{id}/transactions:
     get:
@@ -98,6 +99,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200": { description: OK }
+        "400": { description: Malformed id }
   /transactions:
     get:
       summary: List transactions
@@ -121,6 +123,8 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200": { description: OK }
+        "400": { description: Malformed id }
+        "404": { description: Not found }
   /transactions/{id}/diagnose:
     get:
       summary: Diagnose a single transaction against the vendor's live record
@@ -136,6 +140,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DiagnosisReport"
+        "400": { description: Malformed id }
+        "404": { description: Not found }
   /tickets:
     get:
       summary: List support tickets
@@ -155,6 +161,8 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200": { description: OK }
+        "400": { description: Malformed id }
+        "404": { description: Not found }
   /reconciliation/run:
     post:
       summary: Sweep recent transactions and record new discrepancies (engineer/admin only)

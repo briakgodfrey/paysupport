@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { asyncHandler } from "../middleware/errorHandler";
-import { validateBody } from "../middleware/validate";
+import { idParamsSchema, validateBody, validateParams } from "../middleware/validate";
 import { requireAuth } from "../middleware/auth";
 import { createTicket, getTicketById, listTickets, updateTicket } from "../services/ticket.service";
 import { recordAudit } from "../utils/audit";
@@ -45,6 +45,7 @@ router.post(
 
 router.get(
   "/:id",
+  validateParams(idParamsSchema),
   asyncHandler(async (req, res) => {
     const ticket = await getTicketById(req.params.id);
     res.json(ticket);
@@ -54,6 +55,7 @@ router.get(
 /** PATCH /tickets/:id -- assign or resolve. */
 router.patch(
   "/:id",
+  validateParams(idParamsSchema),
   validateBody(updateTicketSchema),
   asyncHandler(async (req, res) => {
     const ticket = await updateTicket(req.params.id, req.body);
