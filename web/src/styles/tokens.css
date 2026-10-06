@@ -101,6 +101,13 @@
    */
   --size-touch-target: 2.75rem;
   --size-content-max: 72rem;
+  /*
+   * Single-column forms stay narrow: long input rows are harder to scan,
+   * and the label, field, and button stay in one glance. About 448px.
+   */
+  --size-form-max: 28rem;
+  /* Enough for a typical work email in the header before it truncates with an ellipsis. */
+  --size-header-email-max: 16rem;
   /* Small status icons sit outside the spacing scale because they size a glyph, not a gap. */
   --size-status-dot: 0.625rem;
 

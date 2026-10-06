@@ -45,8 +45,55 @@
   padding: var(--space-3) var(--space-4);
 }
 
+/*
+ * The product name links home. It's styled as a wordmark, not a body
+ * link: a header logo linking home is a convention people expect, so the
+ * underline isn't needed to show it's clickable.
+ */
 .app-header__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  color: var(--color-text);
   font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.app-header__brand:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.app-header__end,
+.app-header__session {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-header__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+/* Long emails truncate instead of pushing the sign-out button off narrow screens. */
+.app-header__email {
+  max-width: var(--size-header-email-max);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-header__role {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral-fg);
   font-weight: var(--font-weight-semibold);
 }
 

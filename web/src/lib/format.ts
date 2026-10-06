@@ -1,3 +1,5 @@
+import type { UserRole } from "../api/schemas";
+
 /*
  * Human-readable formatting for values shown in the UI. Formatters are
  * created once because Intl constructors are relatively expensive and
@@ -17,4 +19,15 @@ const timeFormatter = new Intl.DateTimeFormat(undefined, {
  */
 export function formatTime(date: Date): string {
   return timeFormatter.format(date);
+}
+
+const ROLE_LABELS: Record<UserRole, string> = {
+  support: "Support",
+  engineer: "Engineer",
+  admin: "Admin",
+};
+
+/** Formats a role for display, e.g. "engineer" becomes "Engineer". */
+export function formatRole(role: UserRole): string {
+  return ROLE_LABELS[role];
 }

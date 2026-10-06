@@ -1,17 +1,28 @@
+import { Route, Routes } from "react-router";
+
+import { RequireSession } from "./auth/RequireSession";
 import { AppShell } from "./components/AppShell";
+import { HomePage } from "./features/home/HomePage";
+import { NotFoundPage } from "./features/notFound/NotFoundPage";
+import { SignInPage } from "./features/signin/SignInPage";
 
 /**
- * Root component. For now it renders a static landing page inside the
- * shell; routing and the sign-in gate replace this content in piece 3.
+ * Route table. Everything renders inside AppShell. Signed-in pages sit
+ * under RequireSession; sign-in and the not-found page are public.
+ *
+ * The router and session providers are added in main.tsx (and by the test
+ * helper), so tests can swap BrowserRouter for MemoryRouter.
  */
 export function App() {
   return (
-    <AppShell>
-      <h1>Transaction support</h1>
-      <p>
-        Look up a transaction to see whether our ledger and the payment processor agree, and what to do if
-        they don’t.
-      </p>
-    </AppShell>
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route path="sign-in" element={<SignInPage />} />
+        <Route element={<RequireSession />}>
+          <Route index element={<HomePage />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }

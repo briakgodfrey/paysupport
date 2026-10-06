@@ -73,8 +73,11 @@ export interface ApiClientConfig {
    * Called when a request that carried a token gets a 401, meaning the
    * session expired or was revoked. The session owner clears it and sends
    * the user back to sign-in.
+   *
+   * Receives the token that was rejected, so the owner can ignore a late
+   * 401 from a previous session instead of signing out the current one.
    */
-  onUnauthorized?: () => void;
+  onUnauthorized?: (rejectedToken: string) => void;
 }
 
 /** Sends validated, typed requests. Create one with {@link createApiClient}. */
@@ -191,7 +194,7 @@ async function sendRequest<S extends z.ZodType>(
       const detail = await readErrorBody(response);
       // Only a request that carried a token can mean "your session ended".
       // A 401 from the sign-in form just means wrong credentials.
-      if (response.status === 401 && token !== null) config.onUnauthorized?.();
+      if (response.status === 401 && token !== null) config.onUnauthorized?.(token);
       return { ok: false, error: failureForStatus(response.status, detail) };
     }
 

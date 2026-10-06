@@ -51,6 +51,23 @@ p {
 }
 
 /*
+ * Links stay underlined: in body text, colour alone isn't enough to mark
+ * something as clickable (WCAG 1.4.1).
+ */
+a {
+  color: var(--color-accent);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+code {
+  font-family: var(--font-family-mono);
+}
+
+/*
  * One consistent, high-contrast focus ring for every focusable element.
  * :focus-visible shows it for keyboard users without flashing it on mouse
  * clicks. Outlines (not box-shadows) also survive Windows high contrast
