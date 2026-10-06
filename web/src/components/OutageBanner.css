@@ -1,0 +1,25 @@
+/*
+ * Outage banner: the in-page alert shown while the API is unavailable.
+ * The thick left rule marks it as an alert even without its colour.
+ */
+
+.outage-banner {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--color-danger-fg);
+  border-left-width: var(--border-width-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-danger-bg);
+  color: var(--color-text);
+}
+
+.outage-banner__title {
+  color: var(--color-danger-fg);
+  font-size: var(--font-size-lg);
+}
+
+.outage-banner__meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

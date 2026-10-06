@@ -1,0 +1,10 @@
+# The root .gitignore already covers node_modules/, dist/, coverage/ and .env.
+# These are the extra files only the web app produces.
+
+# TypeScript incremental build info from `tsc -b`.
+*.tsbuildinfo
+
+# Vite's local env overrides. They can hold developer-specific values and
+# must never be committed. .env.example is the committed template.
+.env.local
+.env.*.local

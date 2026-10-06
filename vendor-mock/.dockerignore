@@ -1,0 +1,8 @@
+# Files Docker never sends to the vendor mock image build.
+# Dependencies and build output are recreated inside the image, and host
+# node_modules may contain macOS binaries that don't run on Linux.
+node_modules
+dist
+.env
+.env.*
+*.log

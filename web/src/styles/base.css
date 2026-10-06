@@ -1,0 +1,104 @@
+/*
+ * Base: element defaults, the global focus style, reduced-motion handling,
+ * and the few utility classes every screen shares. Component-specific
+ * styles live next to their components.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Stop iOS from inflating text in landscape; users can still zoom. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-body);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+h1 {
+  font-size: var(--font-size-2xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+}
+
+p {
+  margin: 0;
+}
+
+/*
+ * One consistent, high-contrast focus ring for every focusable element.
+ * :focus-visible shows it for keyboard users without flashing it on mouse
+ * clicks. Outlines (not box-shadows) also survive Windows high contrast
+ * mode, where box-shadows are removed.
+ */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/*
+ * Elements given tabindex="-1" (like <main>) only receive focus
+ * programmatically, for the skip link or after navigation. They aren't
+ * controls, so a ring around the whole region would be noise. Don't
+ * "fix" this by removing focus styles from real controls.
+ */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/*
+ * Respect the OS "reduce motion" setting everywhere. Durations are cut
+ * almost to zero rather than removed so transitionend and animationend
+ * handlers still fire.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Hides content visually while keeping it available to screen readers.
+ * Used for text that sighted users get from layout or icons.
+ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

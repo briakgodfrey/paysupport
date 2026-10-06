@@ -1,0 +1,60 @@
+/*
+ * App shell: the skip link, the header bar, and the centred main content
+ * column shared by every page.
+ */
+
+/*
+ * Off-screen until focused, then slides into the top-left corner. It
+ * stays in the tab order (unlike display: none) so it's the first stop for
+ * keyboard users.
+ */
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-4);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--space-4)));
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.app-header {
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.app-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  max-width: var(--size-content-max);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+}
+
+.app-header__brand {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: var(--size-content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}

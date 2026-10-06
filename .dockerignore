@@ -1,0 +1,28 @@
+# Files Docker never sends to the API image build.
+#
+# Without this, `COPY . .` in the Dockerfile ships everything in the repo:
+# hundreds of MB of node_modules (which also makes the build look hung),
+# the web app, git history, and local .env files containing secrets.
+
+# Dependencies are installed inside the image. Host copies are large and
+# may contain binaries built for macOS instead of Linux.
+node_modules
+**/node_modules
+
+# Secrets stay on the host. docker-compose.yml passes config as env vars.
+.env
+.env.*
+!.env.example
+
+# Other projects in this repo have their own builds.
+web
+vendor-mock
+
+# Build output and local artifacts are regenerated inside the image.
+dist
+coverage
+*.log
+
+# Not needed to build or run the API.
+.git
+tests
