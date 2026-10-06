@@ -1,8 +1,15 @@
 -- Seed data for local development / demoing the API.
--- Support login: admin@paysupport.dev / password123  (hash generated at build time, see scripts/seed.sh)
+-- Demo staff logins, one per role, all with password: password123
+--   admin@paysupport.dev     admin
+--   engineer@paysupport.dev  engineer  (can run reconciliation sweeps)
+--   support@paysupport.dev   support   (read-only: diagnose and view discrepancies)
+-- All three share one precomputed bcrypt hash of "password123". Demo-only
+-- credentials: never reuse this hash or password outside local development.
 
 INSERT INTO users (id, email, password_hash, role) VALUES
-    ('11111111-1111-1111-1111-111111111111', 'admin@paysupport.dev', '$2a$10$9W7BWrkUCiTXF4EpXvbUZ.14.0W3zH0RT9lQn/MkTYv8IsqKQpbFC', 'admin');
+    ('11111111-1111-1111-1111-111111111111', 'admin@paysupport.dev',    '$2a$10$9W7BWrkUCiTXF4EpXvbUZ.14.0W3zH0RT9lQn/MkTYv8IsqKQpbFC', 'admin'),
+    ('11111111-1111-1111-1111-111111111112', 'engineer@paysupport.dev', '$2a$10$9W7BWrkUCiTXF4EpXvbUZ.14.0W3zH0RT9lQn/MkTYv8IsqKQpbFC', 'engineer'),
+    ('11111111-1111-1111-1111-111111111113', 'support@paysupport.dev',  '$2a$10$9W7BWrkUCiTXF4EpXvbUZ.14.0W3zH0RT9lQn/MkTYv8IsqKQpbFC', 'support');
 
 INSERT INTO accounts (id, customer_name, email, account_type, balance_cents, status) VALUES
     ('a1111111-0000-0000-0000-000000000001', 'Jordan Reyes',  'jordan.reyes@example.com',  'checking', 254300, 'active'),

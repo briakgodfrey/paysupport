@@ -61,7 +61,15 @@ cd vendor-mock && npm install && npm run dev
 npm run dev
 ```
 
-Demo login: `admin@paysupport.dev` / `password123`
+Demo logins (all use password `password123`), one per role:
+
+| Email | Role | Can run reconciliation sweeps |
+|---|---|---|
+| `admin@paysupport.dev` | admin | Yes |
+| `engineer@paysupport.dev` | engineer | Yes |
+| `support@paysupport.dev` | support | No (gets a 403) |
+
+These are local demo credentials only.
 
 ## Try the core workflow
 
