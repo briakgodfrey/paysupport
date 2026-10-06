@@ -4,12 +4,9 @@ import { ApiError } from "../middleware/errorHandler";
 
 /**
  * Reconciliation & diagnostics engine.
- *
- * This is the part of the project that maps most directly to the job:
- * "Interface with critical vendor systems using a mix of SQL and API calls
- * to research a customer complaints" + "act as an engineering consultant
- * for Operations to automate manual processes."
- *
+ * * The core of the project: investigate a customer complaint by checking
+ * internal SQL records against the vendor's API, then automate that
+ * investigation so Operations doesn't have to do it by hand.
  * Two entry points:
  *  - diagnoseTransaction: on-demand, single-transaction deep dive (what a
  *    support engineer runs while on a ticket).

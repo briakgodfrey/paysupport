@@ -1,12 +1,12 @@
 /**
- * Vendor Mock — stands in for a real card network / ACH processor.
+ * Vendor Mock: stands in for a real card network / ACH processor.
  *
- * The real OnePay-style job description mentions "interfacing with critical
- * vendor systems using a mix of SQL and API calls." This service plays the
- * part of that vendor: it holds its own copy of transaction state, and
- * deliberately drifts from the internal DB some percentage of the time
- * (status lag, amount rounding bugs, records that mysteriously vanish) so
- * the reconciliation engine in the main API has real discrepancies to find.
+ * Real support work means checking internal records against a vendor's
+ * system using a mix of SQL and API calls. This service plays the part of
+ * that vendor: it holds its own copy of transaction state, and deliberately
+ * drifts from the internal DB some percentage of the time (status lag,
+ * amount rounding bugs, records that mysteriously vanish) so the
+ * reconciliation engine in the main API has real discrepancies to find.
  */
 import express, { Request, Response } from "express";
 import cors from "cors";
