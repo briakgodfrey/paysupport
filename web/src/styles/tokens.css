@@ -1,0 +1,152 @@
+/*
+ * Design tokens: the single source of truth for colour, spacing, type,
+ * shape, and motion. Components reference these custom properties and
+ * never raw values, so both themes (and any future rebrand) change here.
+ *
+ * Contrast: every text/background pair below meets WCAG 2.2 AA (4.5:1 or
+ * better) in its theme, and borders that identify controls meet 3:1
+ * against the surface. Check new pairs before adding them.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* ---- Colour: light theme (default) ---- */
+
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #eef1f5;
+  --color-text: #17202b;
+  --color-text-muted: #4a5563;
+  /* Decorative dividers only. Never rely on this to identify a control. */
+  --color-border: #d0d7e0;
+  /* Control boundaries (inputs, secondary buttons): 4.5:1 on surface. */
+  --color-border-strong: #6b7785;
+
+  --color-accent: #1d4ed8;
+  --color-accent-hover: #1e40af;
+  --color-on-accent: #ffffff;
+  --color-focus: #1d4ed8;
+
+  /*
+   * Status pairs. Each "fg" is readable as text on its "bg", so badges and
+   * banners can use them together. Status is always also stated in text:
+   * colour is reinforcement, never the only signal.
+   */
+  --color-success-bg: #e6f4ea;
+  --color-success-fg: #1b5e20;
+  --color-warning-bg: #fff4e0;
+  --color-warning-fg: #8a4b00;
+  --color-danger-bg: #fdecec;
+  --color-danger-fg: #a1121b;
+  --color-info-bg: #e8f0fe;
+  --color-info-fg: #1d4ed8;
+  --color-neutral-bg: #eef1f5;
+  --color-neutral-fg: #374151;
+
+  /* ---- Spacing: a 4px-based scale ---- */
+
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px: the phone-width page gutter */
+  --space-5: 1.5rem; /* 24px */
+  --space-6: 2rem; /* 32px */
+  --space-7: 3rem; /* 48px */
+  --space-8: 4rem; /* 64px */
+
+  /* ---- Type ---- */
+
+  /*
+   * System fonts: no web font download (faster first paint, nothing to
+   * allow in the CSP), and they match the OS the engineer already reads
+   * all day.
+   */
+  --font-family-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Monospace for IDs and amounts, so similar characters (0/O, 1/l) are distinguishable when reading them back to a customer. */
+  --font-family-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* rem sizes follow the user's browser font-size setting. */
+  --font-size-sm: 0.875rem; /* 14px: metadata, badges */
+  --font-size-md: 1rem; /* 16px: body text */
+  --font-size-lg: 1.25rem; /* 20px: section headings */
+  --font-size-xl: 1.5rem; /* 24px: page sections */
+  --font-size-2xl: 2rem; /* 32px: page title */
+
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  --line-height-tight: 1.25;
+  --line-height-body: 1.5;
+
+  /* ---- Shape ---- */
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-pill: 999px;
+
+  --border-width: 1px;
+  /* Thicker stroke for outlined status shapes, so they read clearly at small sizes. */
+  --border-width-strong: 2px;
+  /* Left accent rule on banners: a non-colour cue that marks them as alerts. */
+  --border-width-accent: 4px;
+
+  /* ---- Sizing ---- */
+
+  /*
+   * 44px minimum hit area for every interactive control. WCAG 2.2 AA only
+   * requires 24px (2.5.8), but support engineers often work on laptops
+   * with trackpads or tablets during escalations, and 44px matches the
+   * Apple and WCAG AAA (2.5.5) guidance.
+   */
+  --size-touch-target: 2.75rem;
+  --size-content-max: 72rem;
+  /* Small status icons sit outside the spacing scale because they size a glyph, not a gap. */
+  --size-status-dot: 0.625rem;
+
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
+  /* ---- Elevation ---- */
+
+  --shadow-raised: 0 1px 2px rgb(15 20 26 / 0.08), 0 1px 3px rgb(15 20 26 / 0.06);
+
+  /* ---- Motion ---- */
+
+  /* base.css cuts every animation and transition to near zero when the user prefers reduced motion. */
+  --duration-fast: 150ms;
+  /* Slow loop for "in progress" pulses: calm enough not to distract from reading. */
+  --duration-pulse: 1.2s;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f141a;
+    --color-surface: #171e27;
+    --color-surface-sunken: #0b0f14;
+    --color-text: #e6ebf1;
+    --color-text-muted: #a7b1be;
+    --color-border: #2c3644;
+    --color-border-strong: #7d8a9b;
+
+    --color-accent: #7aa7ff;
+    --color-accent-hover: #a3c2ff;
+    /* Dark text on the light accent keeps primary buttons above 7:1. */
+    --color-on-accent: #0b1220;
+    --color-focus: #7aa7ff;
+
+    --color-success-bg: #12301c;
+    --color-success-fg: #8fd99f;
+    --color-warning-bg: #3a2a0d;
+    --color-warning-fg: #f5c46b;
+    --color-danger-bg: #3b1417;
+    --color-danger-fg: #ff9ea3;
+    --color-info-bg: #142544;
+    --color-info-fg: #9cc0ff;
+    --color-neutral-bg: #222a35;
+    --color-neutral-fg: #c9d1db;
+
+    --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.4), 0 1px 3px rgb(0 0 0 / 0.3);
+  }
+}

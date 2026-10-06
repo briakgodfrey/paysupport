@@ -1,0 +1,54 @@
+/*
+ * Status indicator: the compact API connection pill in the header.
+ * Each state pairs a status colour with a distinct dot shape and a text label.
+ */
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral-fg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.status-indicator__dot {
+  flex: none;
+  width: var(--size-status-dot);
+  height: var(--size-status-dot);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-indicator[data-status="connected"] {
+  background: var(--color-success-bg);
+  color: var(--color-success-fg);
+}
+
+.status-indicator[data-status="unavailable"] {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-fg);
+}
+
+/* Hollow ring: a shape change, so "unavailable" is distinguishable without colour. */
+.status-indicator[data-status="unavailable"] .status-indicator__dot {
+  background: transparent;
+  border: var(--border-width-strong) solid currentColor;
+}
+
+.status-indicator[data-status="checking"] .status-indicator__dot {
+  animation: status-indicator-pulse var(--duration-pulse) var(--easing-standard) infinite alternate;
+}
+
+@keyframes status-indicator-pulse {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.3;
+  }
+}
