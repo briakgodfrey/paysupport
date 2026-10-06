@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { getHealth } from "../api/endpoints";
+import { publicApi } from "../api/endpoints";
 
 /** What the UI knows about the API connection. */
 export type ApiHealthStatus = "checking" | "connected" | "unavailable";
@@ -54,7 +54,7 @@ export function useApiHealth(pollIntervalMs = HEALTH_POLL_INTERVAL_MS): ApiHealt
     inFlight.current = controller;
     setIsChecking(true);
 
-    const result = await getHealth({ signal: controller.signal, timeoutMs: HEALTH_TIMEOUT_MS });
+    const result = await publicApi.getHealth({ signal: controller.signal, timeoutMs: HEALTH_TIMEOUT_MS });
     if (controller.signal.aborted) return;
 
     inFlight.current = null;
