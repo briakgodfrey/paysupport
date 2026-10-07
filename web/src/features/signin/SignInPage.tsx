@@ -133,113 +133,162 @@ export function SignInPage() {
 
   const endNotice = endReason ? END_REASON_NOTICES[endReason] : null;
 
+  /*
+   * Two columns: the form, and a brand "story" panel that explains what
+   * the product does before anyone has an account. The form comes first in
+   * the DOM so screen reader and keyboard users reach the task straight
+   * away, and phones show the form above the fold. CSS places the story
+   * on the left on wide screens.
+   */
   return (
-    <Page title="Sign in">
-      <div className="sign-in">
-        {endNotice ? (
-          <Notice tone={endNotice.tone} title={endNotice.title}>
-            <p>{endNotice.body}</p>
-          </Notice>
-        ) : null}
+    <div className="sign-in-layout">
+      <div className="sign-in-entry">
+        <p className="eyebrow">Your operations workspace</p>
+        <Page title="Sign in">
+          <div className="sign-in">
+            {endNotice ? (
+              <Notice tone={endNotice.tone} title={endNotice.title}>
+                <p>{endNotice.body}</p>
+              </Notice>
+            ) : null}
 
-        <p className="sign-in__intro">Use your PaySupport staff account.</p>
+            <p className="sign-in__intro">Welcome back. Sign in with your PaySupport staff account.</p>
 
-        <LiveRegion politeness="assertive">
-          {formError ? (
-            <Notice tone="danger" title={formError.title}>
-              <p>{formError.action}</p>
-            </Notice>
-          ) : null}
-        </LiveRegion>
+            <LiveRegion politeness="assertive">
+              {formError ? (
+                <Notice tone="danger" title={formError.title}>
+                  <p>{formError.action}</p>
+                </Notice>
+              ) : null}
+            </LiveRegion>
 
-        {/* noValidate: our own messages replace the browser's, which vary by browser and can't be styled or linked to fields. */}
-        <form
-          className="sign-in__form"
-          noValidate
-          onSubmit={(event) => {
-            void handleSubmit(event);
-          }}
-        >
-          <TextField
-            ref={fieldRefs.email}
-            label="Email"
-            type="email"
-            name="email"
-            autoComplete="username"
-            autoCapitalize="none"
-            spellCheck={false}
-            value={email}
-            error={fieldErrors.email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-              clearFieldError("email");
-            }}
-          />
-
-          <TextField
-            ref={fieldRefs.password}
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            autoComplete="current-password"
-            value={password}
-            error={fieldErrors.password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-              clearFieldError("password");
-            }}
-            action={
-              // Lets people check what they typed instead of retyping
-              // blind (helpful with long passphrases and on touch
-              // keyboards). The accessible name stays "Show password";
-              // aria-pressed tells screen readers whether it's on. The
-              // space is outside the hidden span so the name isn't read
-              // as "Showpassword" (see TextField's error prefix).
-              <button
-                type="button"
-                className="button button--secondary"
-                aria-pressed={showPassword}
-                onClick={() => {
-                  setShowPassword((shown) => !shown);
+            {/* noValidate: our own messages replace the browser's, which vary by browser and can't be styled or linked to fields. */}
+            <form
+              className="sign-in__form"
+              noValidate
+              onSubmit={(event) => {
+                void handleSubmit(event);
+              }}
+            >
+              <TextField
+                ref={fieldRefs.email}
+                label="Email"
+                type="email"
+                name="email"
+                autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
+                value={email}
+                error={fieldErrors.email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  clearFieldError("email");
                 }}
-              >
-                Show <span className="visually-hidden">password</span>
-              </button>
-            }
-          />
+              />
 
-          <div>
-            <button type="submit" className="button button--primary">
-              {isSubmitting ? "Signing in…" : "Sign in"}
-            </button>
+              <TextField
+                ref={fieldRefs.password}
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                autoComplete="current-password"
+                value={password}
+                error={fieldErrors.password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  clearFieldError("password");
+                }}
+                action={
+                  // Lets people check what they typed instead of retyping
+                  // blind (helpful with long passphrases and on touch
+                  // keyboards). The accessible name stays "Show password";
+                  // aria-pressed tells screen readers whether it's on. The
+                  // space is outside the hidden span so the name isn't read
+                  // as "Showpassword" (see TextField's error prefix).
+                  <button
+                    type="button"
+                    className="button button--secondary"
+                    aria-pressed={showPassword}
+                    onClick={() => {
+                      setShowPassword((shown) => !shown);
+                    }}
+                  >
+                    Show <span className="visually-hidden">password</span>
+                  </button>
+                }
+              />
+
+              <div>
+                <button type="submit" className="button button--primary">
+                  {isSubmitting ? "Signing in…" : "Sign in"}
+                </button>
+              </div>
+            </form>
+
+            {/*
+              Development builds only. Vite replaces import.meta.env.DEV with
+              `false` in production builds and the bundler drops this block, so
+              demo credentials never ship in deployed code.
+            */}
+            {import.meta.env.DEV ? (
+              <details className="sign-in__demo">
+                <summary>Demo accounts (development only)</summary>
+                <p>
+                  Password for all: <code>password123</code>
+                </p>
+                <ul>
+                  <li>
+                    <code>admin@paysupport.dev</code>: admin
+                  </li>
+                  <li>
+                    <code>engineer@paysupport.dev</code>: engineer, can run sweeps
+                  </li>
+                  <li>
+                    <code>support@paysupport.dev</code>: support, read-only
+                  </li>
+                </ul>
+              </details>
+            ) : null}
           </div>
-        </form>
-
-        {/*
-          Development builds only. Vite replaces import.meta.env.DEV with
-          `false` in production builds and the bundler drops this block, so
-          demo credentials never ship in deployed code.
-        */}
-        {import.meta.env.DEV ? (
-          <details className="sign-in__demo">
-            <summary>Demo accounts (development only)</summary>
-            <p>
-              Password for all: <code>password123</code>
-            </p>
-            <ul>
-              <li>
-                <code>admin@paysupport.dev</code>: admin
-              </li>
-              <li>
-                <code>engineer@paysupport.dev</code>: engineer, can run sweeps
-              </li>
-              <li>
-                <code>support@paysupport.dev</code>: support, read-only
-              </li>
-            </ul>
-          </details>
-        ) : null}
+        </Page>
+        <p className="sign-in-entry__footnote">
+          Transaction diagnostics and reconciliation. A fintech support engineering portfolio project.
+        </p>
       </div>
-    </Page>
+
+      {/* Supplementary brand content. Its headline is a styled paragraph, not a heading, so the page outline stays "Sign in" first. */}
+      <aside className="sign-in-story" aria-label="About PaySupport">
+        <div className="sign-in-story__top">
+          <span>PaySupport operations platform</span>
+          <span className="sign-in-story__tag">Portfolio project</span>
+        </div>
+        <div className="sign-in-story__copy">
+          <p className="sign-in-story__kicker">Clarity at every step</p>
+          <p className="sign-in-story__headline">Behind every payment, a clear answer.</p>
+          <p className="sign-in-story__lead">
+            Turn payment discrepancies into actionable answers. One workspace to investigate, compare, and
+            reconcile.
+          </p>
+        </div>
+        {/* A picture of the core idea: ledger vs processor. Decorative, so hidden from assistive tech. */}
+        <div className="sign-in-story__diagram" aria-hidden="true">
+          <div className="sign-in-story__node">
+            <span className="sign-in-story__node-label">01 Internal ledger</span>
+            <strong>Payment recorded</strong>
+            <span className="sign-in-story__status sign-in-story__status--pending">Pending</span>
+          </div>
+          <div className="sign-in-story__connector">↓ Cross-system diagnosis</div>
+          <div className="sign-in-story__node">
+            <span className="sign-in-story__node-label">02 Payment processor</span>
+            <strong>Reality, verified</strong>
+            <span className="sign-in-story__status sign-in-story__status--settled">Settled</span>
+          </div>
+        </div>
+        <div className="sign-in-story__bottom">
+          <span>Built for support engineers.</span>
+          <span>SQL, APIs, and reconciliation</span>
+        </div>
+      </aside>
+    </div>
   );
 }

@@ -1,0 +1,40 @@
+/*
+ * Copy button: a compact text button that sits next to an ID. It keeps
+ * the full 44px hit area while looking light enough to repeat in every
+ * table row.
+ */
+
+.copy-button {
+  display: inline-flex;
+}
+
+.copy-button__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-accent);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+.copy-button__button:hover {
+  background: var(--color-surface-sunken);
+}
+
+.copy-button__button[data-state="copied"] {
+  color: var(--color-success-fg);
+  text-decoration: none;
+}
+
+.copy-button__button[data-state="failed"] {
+  color: var(--color-danger-fg);
+  text-decoration: none;
+}

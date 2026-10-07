@@ -1,5 +1,6 @@
 /*
- * Page: vertical rhythm for a page's heading and its sections.
+ * Page: the heading row (eyebrow, title, description, actions) and the
+ * vertical rhythm between a page's sections.
  */
 
 .page {
@@ -8,7 +9,35 @@
   gap: var(--space-5);
 }
 
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.page__heading {
+  display: grid;
+  gap: var(--space-2);
+}
+
 .page__title {
   /* Pages focus their heading on navigation; keep the scroll position sensible when they do. */
   scroll-margin-top: var(--space-5);
+}
+
+/*
+ * Capped for readable line length, but wide enough for a sentence plus a
+ * full 36-character transaction ID on one line at laptop widths.
+ */
+.page__description {
+  max-width: 56rem;
+  color: var(--color-text-muted);
+}
+
+.page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }

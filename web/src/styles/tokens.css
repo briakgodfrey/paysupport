@@ -3,9 +3,15 @@
  * shape, and motion. Components reference these custom properties and
  * never raw values, so both themes (and any future rebrand) change here.
  *
+ * Visual identity: warm off-white surfaces, graphite type, and a signal
+ * red reserved for the brand mark. Actions use ink, not red, because in a
+ * payments tool red reads as "error": a red Diagnose button would look
+ * destructive, and a red error would look clickable.
+ *
  * Contrast: every text/background pair below meets WCAG 2.2 AA (4.5:1 or
  * better) in its theme, and borders that identify controls meet 3:1
- * against the surface. Check new pairs before adding them.
+ * against the surface. Ratios were calculated when these values were
+ * chosen; check new pairs before adding them.
  */
 
 :root {
@@ -13,36 +19,52 @@
 
   /* ---- Colour: light theme (default) ---- */
 
-  --color-bg: #f7f8fa;
+  --color-bg: #f4f3f0;
   --color-surface: #ffffff;
-  --color-surface-sunken: #eef1f5;
-  --color-text: #17202b;
-  --color-text-muted: #4a5563;
+  --color-surface-sunken: #f1f1ee;
+  --color-text: #222526; /* 15.4:1 on surface */
+  --color-text-muted: #5c6162; /* 6.3:1 on surface, 5.6:1 on bg */
   /* Decorative dividers only. Never rely on this to identify a control. */
-  --color-border: #d0d7e0;
-  /* Control boundaries (inputs, secondary buttons): 4.5:1 on surface. */
-  --color-border-strong: #6b7785;
+  --color-border: #dedfda;
+  /* Control boundaries (inputs, secondary buttons): 3.5:1 on surface. */
+  --color-border-strong: #848a89;
 
-  --color-accent: #1d4ed8;
-  --color-accent-hover: #1e40af;
-  --color-on-accent: #ffffff;
-  --color-focus: #1d4ed8;
+  /* Ink: primary buttons, links, and the focus ring. */
+  --color-accent: #26302e;
+  --color-accent-hover: #3a4643;
+  --color-on-accent: #ffffff; /* 13.6:1 on accent */
+  --color-focus: #26302e;
+
+  /* Signal red: the brand mark and brand moments only, never actions or errors. */
+  --color-brand: #b72426;
+  --color-on-brand: #ffffff; /* 6.4:1 on brand */
+
+  /*
+   * The sign-in story panel and the "last sweep" metric are dark in both
+   * themes: they're brand surfaces, not page chrome.
+   */
+  --color-brand-surface: #202827;
+  --color-brand-surface-raised: #2b3532;
+  --color-on-brand-surface: #ffffff; /* 15.1:1 */
+  --color-on-brand-surface-muted: #b5c1bd; /* 8.1:1 */
+  --color-brand-surface-border: #52605b;
 
   /*
    * Status pairs. Each "fg" is readable as text on its "bg", so badges and
-   * banners can use them together. Status is always also stated in text:
-   * colour is reinforcement, never the only signal.
+   * notices can use them together. Status is always also stated in text
+   * and an icon: colour is reinforcement, never the only signal.
    */
-  --color-success-bg: #e6f4ea;
-  --color-success-fg: #1b5e20;
-  --color-warning-bg: #fff4e0;
-  --color-warning-fg: #8a4b00;
-  --color-danger-bg: #fdecec;
-  --color-danger-fg: #a1121b;
-  --color-info-bg: #e8f0fe;
-  --color-info-fg: #1d4ed8;
-  --color-neutral-bg: #eef1f5;
-  --color-neutral-fg: #374151;
+  --color-success-bg: #e8f3ed;
+  --color-success-fg: #276443; /* 6.2:1 */
+  --color-warning-bg: #fbf0db;
+  --color-warning-fg: #875900; /* 5.4:1 */
+  --color-danger-bg: #faeaea;
+  --color-danger-fg: #a1121b; /* 6.9:1 */
+  /* Slate blue, not red: "info" (like a processor outage) must never read as an error. */
+  --color-info-bg: #e9eff6;
+  --color-info-fg: #1f4e79; /* 7.5:1 */
+  --color-neutral-bg: #eeefec;
+  --color-neutral-fg: #444a49; /* 7.8:1 */
 
   /* ---- Spacing: a 4px-based scale ---- */
 
@@ -58,38 +80,58 @@
   /* ---- Type ---- */
 
   /*
-   * System fonts: no web font download (faster first paint, nothing to
-   * allow in the CSP), and they match the OS the engineer already reads
-   * all day.
+   * Installed system fonts only: no web font download (faster first
+   * paint, nothing to allow in the CSP). Avenir Next ships with macOS and
+   * gives the warmer, editorial feel of the brand; other platforms fall
+   * back to their native UI font.
    */
-  --font-family-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-sans: "Avenir Next", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   /* Monospace for IDs and amounts, so similar characters (0/O, 1/l) are distinguishable when reading them back to a customer. */
   --font-family-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* rem sizes follow the user's browser font-size setting. */
-  --font-size-sm: 0.875rem; /* 14px: metadata, badges */
+  /*
+   * 12px is the floor: used only for uppercase eyebrow labels and table
+   * headers, where letter spacing keeps it legible. Body copy never goes
+   * below 14px.
+   */
+  --font-size-xs: 0.75rem; /* 12px: eyebrows, table headers */
+  --font-size-sm: 0.875rem; /* 14px: metadata, badges, table cells */
   --font-size-md: 1rem; /* 16px: body text */
   --font-size-lg: 1.25rem; /* 20px: section headings */
-  --font-size-xl: 1.5rem; /* 24px: page sections */
-  --font-size-2xl: 2rem; /* 32px: page title */
+  --font-size-xl: 1.5rem; /* 24px: large values */
+  --font-size-2xl: 2.25rem; /* 36px: page title */
+  /* Big figures in the metrics strip, readable at a glance from across a desk. */
+  --font-size-display: 2.5rem; /* 40px */
 
   --font-weight-regular: 400;
+  /* Headings use medium, not bold: the editorial look relies on size and tight tracking, not weight. */
+  --font-weight-medium: 500;
   --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
-  --line-height-tight: 1.25;
+  --line-height-tight: 1.2;
   --line-height-body: 1.5;
+  --line-height-relaxed: 1.7;
+
+  /* Large text looks loose at default tracking; pulling it in keeps headings compact. */
+  --letter-spacing-tight: -0.03em;
+  /* Small uppercase labels need extra tracking to stay legible. */
+  --letter-spacing-wide: 0.12em;
 
   /* ---- Shape ---- */
 
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
+  --radius-sm: 0.25rem; /* 4px: badges, small marks */
+  --radius-md: 0.375rem; /* 6px: buttons, inputs */
+  --radius-lg: 0.625rem; /* 10px: panels and cards */
+  --radius-xl: 1rem; /* 16px: the sign-in frame */
   --radius-pill: 999px;
 
   --border-width: 1px;
-  /* Thicker stroke for outlined status shapes, so they read clearly at small sizes. */
+  /* Thicker stroke for outlined status shapes and invalid fields, so they read clearly. */
   --border-width-strong: 2px;
-  /* Left accent rule on banners: a non-colour cue that marks them as alerts. */
-  --border-width-accent: 4px;
+  /* Left accent rule on notices and the lookup panel: a non-colour cue that marks them as important. */
+  --border-width-accent: 3px;
 
   /* ---- Sizing ---- */
 
@@ -100,7 +142,8 @@
    * Apple and WCAG AAA (2.5.5) guidance.
    */
   --size-touch-target: 2.75rem;
-  --size-content-max: 72rem;
+  /* Wide enough for the discrepancy table's six columns without horizontal scrolling on a laptop. */
+  --size-content-max: 86rem;
   /*
    * Single-column forms stay narrow: long input rows are harder to scan,
    * and the label, field, and button stay in one glance. About 448px.
@@ -108,15 +151,20 @@
   --size-form-max: 28rem;
   /* Enough for a typical work email in the header before it truncates with an ellipsis. */
   --size-header-email-max: 16rem;
-  /* Small status icons sit outside the spacing scale because they size a glyph, not a gap. */
+  /* Glyph sizes sit outside the spacing scale because they size an icon, not a gap. */
   --size-status-dot: 0.625rem;
+  --size-icon: 1.25rem;
+  --size-brand-mark: 2.125rem;
 
   --focus-ring-width: 3px;
   --focus-ring-offset: 2px;
 
   /* ---- Elevation ---- */
 
-  --shadow-raised: 0 1px 2px rgb(15 20 26 / 0.08), 0 1px 3px rgb(15 20 26 / 0.06);
+  --shadow-raised: 0 1px 2px rgb(32 37 37 / 0.06), 0 3px 12px rgb(32 37 37 / 0.04);
+  --shadow-overlay: 0 18px 60px rgb(32 37 37 / 0.18);
+  /* Dims the page behind a modal so the question is the only thing competing for attention. */
+  --color-backdrop: rgb(20 24 23 / 0.55);
 
   /* ---- Motion ---- */
 
@@ -129,31 +177,40 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0f141a;
-    --color-surface: #171e27;
-    --color-surface-sunken: #0b0f14;
-    --color-text: #e6ebf1;
-    --color-text-muted: #a7b1be;
-    --color-border: #2c3644;
-    --color-border-strong: #7d8a9b;
+    --color-bg: #151918;
+    --color-surface: #1d2321;
+    --color-surface-sunken: #111413;
+    --color-text: #e8ebe9; /* 13.3:1 on surface */
+    --color-text-muted: #a9b1ae; /* 7.3:1 on surface */
+    --color-border: #323a37;
+    --color-border-strong: #7f8a86; /* 4.5:1 on surface */
 
-    --color-accent: #7aa7ff;
-    --color-accent-hover: #a3c2ff;
-    /* Dark text on the light accent keeps primary buttons above 7:1. */
-    --color-on-accent: #0b1220;
-    --color-focus: #7aa7ff;
+    /* In dark mode, ink inverts to light: buttons are light with dark text. */
+    --color-accent: #e8ebe9;
+    --color-accent-hover: #ffffff;
+    --color-on-accent: #151918; /* 14.8:1 */
+    --color-focus: #e8ebe9;
 
-    --color-success-bg: #12301c;
-    --color-success-fg: #8fd99f;
-    --color-warning-bg: #3a2a0d;
-    --color-warning-fg: #f5c46b;
-    --color-danger-bg: #3b1417;
+    --color-brand: #c42f31;
+    --color-on-brand: #ffffff; /* 5.5:1 */
+
+    --color-brand-surface: #262e2b;
+    --color-brand-surface-raised: #2f3835;
+    --color-brand-surface-border: #4f5c57;
+
+    --color-success-bg: #16301f;
+    --color-success-fg: #8fd9a8;
+    --color-warning-bg: #3a2c10;
+    --color-warning-fg: #f2c46b;
+    --color-danger-bg: #3b1618;
     --color-danger-fg: #ff9ea3;
-    --color-info-bg: #142544;
-    --color-info-fg: #9cc0ff;
-    --color-neutral-bg: #222a35;
-    --color-neutral-fg: #c9d1db;
+    --color-info-bg: #172a40;
+    --color-info-fg: #9cc4f0;
+    --color-neutral-bg: #262c2a;
+    --color-neutral-fg: #c9d0cd;
 
-    --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.4), 0 1px 3px rgb(0 0 0 / 0.3);
+    --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.4), 0 3px 12px rgb(0 0 0 / 0.25);
+    --shadow-overlay: 0 18px 60px rgb(0 0 0 / 0.5);
+    --color-backdrop: rgb(0 0 0 / 0.7);
   }
 }

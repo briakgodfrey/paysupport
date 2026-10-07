@@ -34,16 +34,19 @@ h3 {
   line-height: var(--line-height-tight);
 }
 
+/* The page title is the editorial moment: large, medium weight, tightly tracked. */
 h1 {
   font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 h2 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
 }
 
 h3 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
 }
 
 p {
@@ -102,6 +105,32 @@ code {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---- Shared utilities ---- */
+
+/* A raised white card. Panels group one task each (lookup, queue, result). */
+.panel {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+}
+
+/*
+ * Small uppercase label above a heading. It names the area ("Diagnosis
+ * result") so the heading itself can carry the specific content.
+ */
+.eyebrow {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
 }
 
 /*

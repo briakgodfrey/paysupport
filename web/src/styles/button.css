@@ -42,3 +42,14 @@
 .button--secondary:hover {
   background: var(--color-surface-sunken);
 }
+
+/*
+ * Busy or unavailable buttons use aria-disabled, not the disabled
+ * attribute: a disabled button drops out of the tab order and loses
+ * focus, so keyboard and screen reader users can't find it or learn why
+ * it isn't working. The click handler ignores the click instead.
+ */
+.button[aria-disabled="true"] {
+  cursor: progress;
+  opacity: 0.7;
+}

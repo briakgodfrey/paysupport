@@ -1,0 +1,78 @@
+/*
+ * Metrics strip: four headline numbers in one joined card. The last tile
+ * uses the dark brand surface to set the session's sweep apart from the
+ * live counts.
+ */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+}
+
+@media (min-width: 64rem) {
+  .metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metric {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  /* Hairlines between tiles; the extra 1px is hidden by the card's overflow. */
+  box-shadow: var(--border-width) var(--border-width) 0 var(--color-border);
+}
+
+.metric dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.metric dd {
+  margin: 0;
+}
+
+.metric__value {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Words ("None yet", "Unavailable") are smaller than numbers so they don't shout. */
+.metric__value--empty {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-body);
+}
+
+.metric__unit {
+  font-size: var(--font-size-md);
+  letter-spacing: normal;
+}
+
+.metric__note {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.metric--brand {
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+  box-shadow: none;
+}
+
+.metric--brand dt,
+.metric--brand .metric__note {
+  color: var(--color-on-brand-surface-muted);
+}

@@ -53,16 +53,41 @@
 .app-header__brand {
   display: inline-flex;
   align-items: center;
+  gap: var(--space-3);
   min-height: var(--size-touch-target);
   color: var(--color-text);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
   text-decoration: none;
 }
 
+/*
+ * No hover underline: on a logo it runs under the mark and wordmark and
+ * looks broken. A logo linking home is a convention people already know,
+ * the pointer cursor still signals a link, and keyboard users still get
+ * the full focus ring from base.css.
+ */
 .app-header__brand:hover {
   color: var(--color-text);
-  text-decoration: underline;
+}
+
+/*
+ * The red brand mark. It's a real element with aria-hidden (not CSS
+ * ::before content), because generated content is read aloud: the
+ * link would be announced as "north east arrow PaySupport".
+ */
+.app-header__mark {
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-brand-mark);
+  height: var(--size-brand-mark);
+  border-radius: var(--radius-sm);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0;
 }
 
 .app-header__end,
@@ -85,6 +110,7 @@
 .app-header__email {
   max-width: var(--size-header-email-max);
   overflow: hidden;
+  color: var(--color-text-muted);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -103,5 +129,16 @@
   gap: var(--space-5);
   max-width: var(--size-content-max);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4);
+  padding: var(--space-5) var(--space-4);
+}
+
+/* Roomier gutters once there's space for them; phones keep the 16px gutter. */
+@media (min-width: 48rem) {
+  .app-header__inner {
+    padding: var(--space-3) var(--space-6);
+  }
+
+  .app-main {
+    padding: var(--space-7) var(--space-6);
+  }
 }
