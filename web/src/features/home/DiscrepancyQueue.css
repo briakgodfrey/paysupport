@@ -26,10 +26,11 @@
 /* ---- Filter tabs ---- */
 
 /* Underlined tabs: the selected one is marked by weight and a thick underline, not colour alone. */
+/* Small row gap: on phones the third tab wraps, and it should sit right under the others, not float away. */
 .queue__filters {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-5);
+  gap: var(--space-1) var(--space-5);
 }
 
 .queue__filter {
