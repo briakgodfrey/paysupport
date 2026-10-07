@@ -1,0 +1,52 @@
+/*
+ * Status badge: a tone-coloured label with a circular icon. Used for
+ * diagnosis outcomes and discrepancy types.
+ */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+}
+
+.status-badge__icon {
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-icon);
+  height: var(--size-icon);
+  border: var(--border-width-strong) solid currentColor;
+  border-radius: 50%;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.status-badge--success {
+  background: var(--color-success-bg);
+  color: var(--color-success-fg);
+}
+
+.status-badge--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-fg);
+}
+
+.status-badge--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-fg);
+}
+
+.status-badge--info {
+  background: var(--color-info-bg);
+  color: var(--color-info-fg);
+}
+
+.status-badge--neutral {
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral-fg);
+}

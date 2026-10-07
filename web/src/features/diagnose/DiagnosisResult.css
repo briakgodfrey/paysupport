@@ -1,0 +1,159 @@
+/*
+ * Diagnosis result: the verdict card, the ledger vs processor comparison
+ * table, and the details list.
+ */
+
+.diagnosis-result {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* ---- Verdict ---- */
+
+/* A tone-coloured left rule ties the card to its badge without tinting the whole card (which would hurt readability). */
+.diagnosis-result__verdict {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-left-width: var(--border-width-accent);
+}
+
+.diagnosis-result__verdict--success {
+  border-left-color: var(--color-success-fg);
+}
+
+.diagnosis-result__verdict--warning {
+  border-left-color: var(--color-warning-fg);
+}
+
+.diagnosis-result__verdict--danger {
+  border-left-color: var(--color-danger-fg);
+}
+
+.diagnosis-result__verdict--info {
+  border-left-color: var(--color-info-fg);
+}
+
+.diagnosis-result__verdict--neutral {
+  border-left-color: var(--color-neutral-fg);
+}
+
+.diagnosis-result__headline {
+  max-width: 48rem;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.diagnosis-result__next-step {
+  max-width: 48rem;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+}
+
+/* ---- Comparison and details ---- */
+
+.diagnosis-result__section {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+/* Lets the table scroll sideways on very narrow phones instead of squashing the values. */
+.diagnosis-result__table-scroll {
+  /* Keeps any .visually-hidden text inside the scroll box (see DiscrepancyQueue.css). */
+  position: relative;
+  overflow-x: auto;
+}
+
+.diagnosis-result__table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.diagnosis-result__table th,
+.diagnosis-result__table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border);
+  vertical-align: top;
+}
+
+.diagnosis-result__table thead th {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.diagnosis-result__table tbody th {
+  font-weight: var(--font-weight-semibold);
+}
+
+.diagnosis-result__value {
+  font-size: var(--font-size-lg);
+}
+
+/* Amounts only: digits line up and can be read back to a customer exactly. Words stay in the body font. */
+.diagnosis-result__value--mono {
+  font-family: var(--font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rows that differ get a tinted background as well as the "Differs" text. */
+.diagnosis-result__table tr[data-matches="false"] {
+  background: var(--color-warning-bg);
+}
+
+.diagnosis-result__match {
+  color: var(--color-success-fg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.diagnosis-result__differs {
+  color: var(--color-warning-fg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.diagnosis-result__details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-4) var(--space-5);
+  margin: 0;
+}
+
+.diagnosis-result__details dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.diagnosis-result__details dd {
+  margin: var(--space-1) 0 0;
+  overflow-wrap: anywhere;
+}
+
+.diagnosis-result__id {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+
+.diagnosis-result__technical summary {
+  min-height: var(--size-touch-target);
+  padding-block: var(--space-3);
+  cursor: pointer;
+  font-weight: var(--font-weight-semibold);
+}
+
+.diagnosis-result__technical p {
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}

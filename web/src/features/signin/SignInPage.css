@@ -1,11 +1,49 @@
 /*
- * Sign-in page: a single narrow column, so the eye moves straight down
- * from heading to fields to button with nothing competing for attention.
+ * Sign-in page: a framed two-column layout. The brand story panel sits on
+ * the left on wide screens; the form column is a single narrow stack so
+ * the eye moves straight from heading to fields to button.
  */
+
+.sign-in-layout {
+  display: grid;
+  grid-template-areas:
+    "entry"
+    "story";
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+}
+
+/* Side by side once both columns have room. The story moves left visually, but stays second in reading order. */
+@media (min-width: 54rem) {
+  .sign-in-layout {
+    grid-template-areas: "story entry";
+    grid-template-columns: 1.15fr 1fr;
+  }
+}
+
+/* ---- Form column ---- */
+
+.sign-in-entry {
+  grid-area: entry;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-5);
+}
+
+@media (min-width: 54rem) {
+  .sign-in-entry {
+    padding: var(--space-8) var(--space-7);
+  }
+}
 
 .sign-in {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
   max-width: var(--size-form-max);
 }
 
@@ -15,13 +53,17 @@
 
 .sign-in__form {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
+}
+
+/* A full-width submit button is easy to hit and makes the single action obvious. */
+.sign-in__form .button--primary {
+  width: 100%;
 }
 
 .sign-in__demo {
-  padding: var(--space-3) var(--space-4);
-  border: var(--border-width) dashed var(--color-border-strong);
-  border-radius: var(--radius-md);
+  padding-top: var(--space-3);
+  border-top: var(--border-width) solid var(--color-border);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
@@ -29,7 +71,7 @@
 /* Keeps the default list-item display so the browser's open/closed triangle still shows. */
 .sign-in__demo summary {
   min-height: var(--size-touch-target);
-  padding-block: var(--space-2);
+  padding-block: var(--space-3);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
 }
@@ -37,4 +79,145 @@
 .sign-in__demo ul {
   margin: var(--space-2) 0 0;
   padding-left: var(--space-5);
+  line-height: var(--line-height-relaxed);
+}
+
+.sign-in-entry__footnote {
+  margin-top: var(--space-6);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ---- Story panel (dark brand surface in both themes) ---- */
+
+.sign-in-story {
+  grid-area: story;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-5);
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+}
+
+@media (min-width: 54rem) {
+  .sign-in-story {
+    padding: var(--space-6) var(--space-7);
+  }
+}
+
+.sign-in-story__top,
+.sign-in-story__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--color-on-brand-surface-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.sign-in-story__tag {
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--color-brand-surface-border);
+  border-radius: var(--radius-sm);
+}
+
+.sign-in-story__copy {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.sign-in-story__kicker {
+  color: var(--color-on-brand-surface-muted);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.sign-in-story__headline {
+  max-width: 14ch;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.sign-in-story__lead {
+  max-width: 24rem;
+  color: var(--color-on-brand-surface-muted);
+  line-height: var(--line-height-relaxed);
+}
+
+/* The diagram explains the product; on small screens the headline already does that, so it's dropped to keep the form close. */
+.sign-in-story__diagram {
+  display: none;
+}
+
+@media (min-width: 54rem) {
+  .sign-in-story__diagram {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 24rem;
+  }
+}
+
+.sign-in-story__node {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--color-brand-surface-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-brand-surface-raised);
+}
+
+.sign-in-story__node-label {
+  grid-column: 1;
+  color: var(--color-on-brand-surface-muted);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+}
+
+.sign-in-story__node strong {
+  grid-column: 1;
+  font-weight: var(--font-weight-medium);
+}
+
+.sign-in-story__status {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.sign-in-story__status--pending {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-fg);
+}
+
+.sign-in-story__status--settled {
+  background: var(--color-success-bg);
+  color: var(--color-success-fg);
+}
+
+.sign-in-story__connector {
+  padding-left: var(--space-5);
+  color: var(--color-on-brand-surface-muted);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+}
+
+.sign-in-story__bottom {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--color-brand-surface-border);
+  letter-spacing: normal;
+  text-transform: none;
 }

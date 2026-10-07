@@ -45,6 +45,9 @@ export function AppShell() {
       <header className="app-header">
         <div className="app-header__inner">
           <Link className="app-header__brand" to="/">
+            <span className="app-header__mark" aria-hidden="true">
+              ↗
+            </span>
             PaySupport
           </Link>
 
@@ -52,11 +55,22 @@ export function AppShell() {
             <StatusIndicator status={health.status} />
             {user ? (
               <div className="app-header__session">
+                {/*
+                  One complete sentence for screen readers, and the visual
+                  pieces hidden from them. Splitting the sentence across
+                  spans inside this flex row relied on whitespace that flex
+                  layout drops, which could be read as "Signed in asengineer".
+                */}
                 <p className="app-header__identity">
-                  <span className="visually-hidden">Signed in as </span>
-                  <span className="app-header__email">{user.email}</span>
-                  <span className="visually-hidden">, role: </span>
-                  <span className="app-header__role">{formatRole(user.role)}</span>
+                  <span className="visually-hidden">
+                    Signed in as {user.email}, role {formatRole(user.role)}
+                  </span>
+                  <span className="app-header__email" aria-hidden="true">
+                    {user.email}
+                  </span>
+                  <span className="app-header__role" aria-hidden="true">
+                    {formatRole(user.role)}
+                  </span>
                 </p>
                 <button type="button" className="button button--secondary" onClick={signOut}>
                   Sign out

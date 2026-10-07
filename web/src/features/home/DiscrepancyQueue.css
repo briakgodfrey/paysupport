@@ -1,0 +1,181 @@
+/*
+ * Discrepancy queue: header, filter tabs and search, the findings table,
+ * empty states, and the footer count.
+ */
+
+.queue__header,
+.queue__toolbar,
+.queue__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.queue__intro {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.queue__toolbar {
+  padding-top: 0;
+}
+
+/* ---- Filter tabs ---- */
+
+/* Underlined tabs: the selected one is marked by weight and a thick underline, not colour alone. */
+.queue__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+.queue__filter {
+  min-height: var(--size-touch-target);
+  padding: 0;
+  border: 0;
+  border-bottom: var(--border-width-strong) solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.queue__filter:hover {
+  color: var(--color-text);
+}
+
+.queue__filter[aria-pressed="true"] {
+  border-bottom-color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+}
+
+.queue__filter-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.queue__search {
+  flex: 1 1 16rem;
+  max-width: 24rem;
+}
+
+/* ---- Table ---- */
+
+.queue__notice {
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.queue__retry {
+  margin-top: var(--space-3);
+}
+
+/*
+ * Six columns don't fit a phone. The table scrolls sideways inside its
+ * panel instead of squashing values or hiding columns, and every row's
+ * links and buttons keep it reachable by keyboard.
+ */
+.queue__scroll {
+  /*
+   * position: relative keeps .visually-hidden text (absolutely positioned)
+   * inside this scroll box. Without it, the hidden spans in the last
+   * column escape and stretch the whole page sideways. Don't remove it.
+   */
+  position: relative;
+  overflow-x: auto;
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.queue__table {
+  width: 100%;
+  min-width: 60rem;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  text-align: left;
+}
+
+.queue__table th {
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.queue__table td {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border-width) solid var(--color-border);
+  vertical-align: top;
+}
+
+.queue__table tbody tr:hover {
+  background: var(--color-surface-sunken);
+}
+
+.queue__primary,
+.queue__secondary {
+  display: block;
+}
+
+.queue__primary {
+  font-weight: var(--font-weight-semibold);
+}
+
+.queue__secondary {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.queue__amount {
+  font-family: var(--font-family-mono);
+}
+
+.queue__id {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Full IDs, never truncated: a shortened ID can't be pasted into a query or ticket. */
+.queue__id code {
+  overflow-wrap: anywhere;
+}
+
+.queue__action {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* ---- Empty state and footer ---- */
+
+.queue__empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-7) var(--space-5);
+  border-top: var(--border-width) solid var(--color-border);
+  text-align: center;
+}
+
+.queue__empty-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.queue__footer {
+  align-items: center;
+  border-top: var(--border-width) solid var(--color-border);
+  background: var(--color-surface-sunken);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  font-size: var(--font-size-sm);
+}

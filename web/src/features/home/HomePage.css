@@ -1,0 +1,11 @@
+/*
+ * Workspace page: page-level pieces that don't belong to a component.
+ * The metrics, lookup, and queue each have their own stylesheet.
+ */
+
+/* Shown to support users in place of the sweep button, aligned with where the button would be. */
+.workspace__role-note {
+  max-width: 20rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

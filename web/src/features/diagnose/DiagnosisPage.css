@@ -1,0 +1,48 @@
+/*
+ * Diagnosis page: the ID in the description, the loading indicator, and
+ * spacing for the retry action inside error notices.
+ */
+
+/* Long IDs wrap rather than push the page sideways on phones. */
+.diagnosis-page__id {
+  overflow-wrap: anywhere;
+}
+
+/* With room to spare, keep the ID whole so it can be read as one value. */
+@media (min-width: 48rem) {
+  .diagnosis-page__id {
+    white-space: nowrap;
+  }
+}
+
+.diagnosis-page__loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+/* A slow spin. Reduced-motion users get a static ring (see base.css), and the text says what's happening either way. */
+.diagnosis-page__spinner {
+  flex: none;
+  width: var(--size-icon);
+  height: var(--size-icon);
+  border: var(--border-width-strong) solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: diagnosis-page-spin var(--duration-pulse) linear infinite;
+}
+
+@keyframes diagnosis-page-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.diagnosis-page__retry {
+  margin-top: var(--space-3);
+}

@@ -1,0 +1,49 @@
+/*
+ * Transaction lookup: the "Investigate a payment" panel. The red left rule
+ * is a brand moment that marks it as the main entry point on the page.
+ */
+
+.transaction-lookup {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border-left: var(--border-width-accent) solid var(--color-brand);
+}
+
+.transaction-lookup__intro {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.transaction-lookup__form {
+  display: grid;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+/* Wide screens: field and button on one row, intro beside them. */
+@media (min-width: 48rem) {
+  .transaction-lookup__form {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (min-width: 64rem) {
+  .transaction-lookup {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: center;
+  }
+}
+
+/* Monospace so a pasted ID can be checked character by character. */
+.transaction-lookup__input {
+  font-family: var(--font-family-mono);
+}
+
+/*
+ * The button aligns with the input, not the hint and label above it.
+ * TextField's layout puts the input last, so aligning to the end works.
+ */
+.transaction-lookup__submit {
+  white-space: nowrap;
+}
