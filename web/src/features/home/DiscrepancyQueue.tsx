@@ -1,3 +1,8 @@
+/* eslint-disable jsx-a11y/no-redundant-roles, jsx-a11y/no-interactive-element-to-noninteractive-role --
+   The queue table restates its table roles on purpose: the phone card
+   layout changes the table's CSS display, and some browsers (notably
+   Safari) then stop exposing it as a table to screen readers. Scoped to
+   this file only; everywhere else these rules stay on. */
 import { useId, useState } from "react";
 import { Link } from "react-router";
 
@@ -18,6 +23,8 @@ const FILTERS: { value: QueueFilter; label: string }[] = [
   { value: "resolved", label: "Resolved" },
   { value: "all", label: "All findings" },
 ];
+
+const COLUMNS = ["Customer", "Transaction", "Discrepancy", "Our ledger", "Processor", "Detected", "Action"] as const;
 
 const TYPE_TONES: Record<Discrepancy["type"], BadgeTone> = {
   status_mismatch: "warning",
@@ -143,24 +150,26 @@ export function DiscrepancyQueue({ rows, isLoading, failure, onReload, canRunSwe
 
       {visible.length > 0 ? (
         <div className="queue__scroll">
-          <table className="queue__table">
+          {/*
+            On phones, CSS restyles this table as a stack of cards. Some
+            browsers (notably Safari) stop exposing table semantics once a
+            table's display is changed, so the roles are set explicitly to
+            keep "row 2, Our ledger, $200.00" navigation working.
+          */}
+          <table className="queue__table" role="table">
             <caption className="visually-hidden">
               {filterLabel}: {visible.length} of {all.length} findings
             </caption>
-            <thead>
-              <tr>
-                <th scope="col">Customer</th>
-                <th scope="col">Transaction</th>
-                <th scope="col">Discrepancy</th>
-                <th scope="col">Our ledger</th>
-                <th scope="col">Processor</th>
-                <th scope="col">Detected</th>
-                <th scope="col">
-                  <span className="visually-hidden">Action</span>
-                </th>
+            <thead className="queue__head" role="rowgroup">
+              <tr role="row">
+                {COLUMNS.map((column) => (
+                  <th key={column} scope="col" role="columnheader">
+                    {column === "Action" ? <span className="visually-hidden">Action</span> : column}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {visible.map((row) => (
                 <QueueRow key={row.id} row={row} />
               ))}
@@ -192,37 +201,56 @@ export function DiscrepancyQueue({ rows, isLoading, failure, onReload, canRunSwe
   );
 }
 
+/**
+ * A label shown inside a cell only in the phone card layout, where the
+ * column headers aren't visible. Hidden from screen readers, which already
+ * announce the column header for each cell.
+ */
+function CellLabel({ children }: { children: string }) {
+  return (
+    <span className="queue__cell-label" aria-hidden="true">
+      {children}
+    </span>
+  );
+}
+
 function QueueRow({ row }: { row: Discrepancy }) {
   return (
-    <tr>
-      <td>
+    <tr className="queue__row" role="row">
+      <td className="queue__cell queue__cell--customer" role="cell">
         <span className="queue__primary">{row.customerName}</span>
         <span className="queue__secondary">{row.accountEmail}</span>
       </td>
-      <td>
+      <td className="queue__cell queue__cell--transaction" role="cell">
+        <CellLabel>Transaction</CellLabel>
         <span className="queue__id">
           <code>{row.transactionId}</code>
           <CopyButton value={row.transactionId} label={`transaction ID for ${row.customerName}`} />
         </span>
       </td>
-      <td>
+      <td className="queue__cell queue__cell--type" role="cell">
         <StatusBadge tone={row.resolved ? "success" : TYPE_TONES[row.type]} label={formatDiscrepancyType(row.type)} />
         <span className="queue__secondary">{row.resolved ? "Resolved" : "Needs review"}</span>
       </td>
-      <td>
+      <td className="queue__cell queue__cell--ledger" role="cell">
+        <CellLabel>Our ledger</CellLabel>
         <span className="queue__primary queue__amount">
           {row.internalAmountCents === null ? "No amount" : formatCents(row.internalAmountCents)}
         </span>
         <span className="queue__secondary">{row.internalStatus ? formatStatus(row.internalStatus) : "No status"}</span>
       </td>
-      <td>
+      <td className="queue__cell queue__cell--processor" role="cell">
+        <CellLabel>Processor</CellLabel>
         <span className="queue__primary queue__amount">
           {row.vendorAmountCents === null ? "No record" : formatCents(row.vendorAmountCents)}
         </span>
         <span className="queue__secondary">{row.vendorStatus ? formatStatus(row.vendorStatus) : "No record"}</span>
       </td>
-      <td>{formatDateTime(row.createdAt)}</td>
-      <td>
+      <td className="queue__cell queue__cell--detected" role="cell">
+        <CellLabel>Detected</CellLabel>
+        {formatDateTime(row.createdAt)}
+      </td>
+      <td className="queue__cell queue__cell--action" role="cell">
         {/*
           "Investigate" alone would repeat on every row; the hidden text names
           the customer for screen reader link lists. The space sits outside

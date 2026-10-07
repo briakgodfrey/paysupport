@@ -26,10 +26,11 @@
 /* ---- Filter tabs ---- */
 
 /* Underlined tabs: the selected one is marked by weight and a thick underline, not colour alone. */
+/* Small row gap: on phones the third tab wraps, and it should sit right under the others, not float away. */
 .queue__filters {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-5);
+  gap: var(--space-1) var(--space-5);
 }
 
 .queue__filter {
@@ -74,9 +75,9 @@
 }
 
 /*
- * Six columns don't fit a phone. The table scrolls sideways inside its
- * panel instead of squashing values or hiding columns, and every row's
- * links and buttons keep it reachable by keyboard.
+ * Tablet and up: a seven-column table. If the panel is narrower than the
+ * columns need, the table scrolls sideways inside it rather than squashing
+ * values. Phones get the card layout further down.
  */
 .queue__scroll {
   /*
@@ -97,6 +98,11 @@
   text-align: left;
 }
 
+/* Only needed in the card layout, where column headers aren't visible. */
+.queue__cell-label {
+  display: none;
+}
+
 .queue__table th {
   padding: var(--space-3) var(--space-5);
   background: var(--color-surface-sunken);
@@ -114,8 +120,14 @@
   vertical-align: top;
 }
 
-.queue__table tbody tr:hover {
-  background: var(--color-surface-sunken);
+/*
+ * Only on devices with a real pointer. On touch screens the last tapped
+ * row stays "hovered", which would make a card look selected.
+ */
+@media (hover: hover) {
+  .queue__table tbody tr:hover {
+    background: var(--color-surface-sunken);
+  }
 }
 
 .queue__primary,
@@ -154,6 +166,115 @@
   min-height: var(--size-touch-target);
   font-weight: var(--font-weight-semibold);
   white-space: nowrap;
+}
+
+/*
+ * Phones: each row becomes a card, so a finding can be read top to bottom
+ * without scrolling sideways. Customer and discrepancy type come first
+ * (what an engineer scans for), then ledger and processor side by side
+ * for comparison, then the ID and the link onward.
+ *
+ * This is the same markup restyled, not a second list: the explicit ARIA
+ * roles in DiscrepancyQueue.tsx keep the table semantics that browsers can
+ * drop when display changes. Desktop-first here (max-width) so the table
+ * rules above don't need undoing.
+ */
+@media (max-width: 47.99rem) {
+  .queue__scroll {
+    overflow-x: visible;
+  }
+
+  .queue__table,
+  .queue__table tbody,
+  .queue__row,
+  .queue__cell {
+    display: block;
+  }
+
+  .queue__table {
+    min-width: 0;
+  }
+
+  /* Headers stay available to screen readers, which announce them per cell. */
+  .queue__head {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .queue__row {
+    display: grid;
+    grid-template-areas:
+      "customer customer"
+      "type type"
+      "ledger processor"
+      "transaction transaction"
+      "detected action";
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3) var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .queue__table td {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .queue__cell--customer {
+    grid-area: customer;
+  }
+
+  .queue__cell--type {
+    grid-area: type;
+  }
+
+  .queue__cell--ledger {
+    grid-area: ledger;
+  }
+
+  .queue__cell--processor {
+    grid-area: processor;
+  }
+
+  .queue__cell--transaction {
+    grid-area: transaction;
+  }
+
+  .queue__cell--detected {
+    grid-area: detected;
+    align-self: center;
+  }
+
+  .queue__cell--action {
+    grid-area: action;
+    justify-self: end;
+  }
+
+  .queue__cell-label {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+  }
+
+  /* The badge and its "Needs review" text sit on one line in a card. */
+  .queue__cell--type {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .queue__cell--type .queue__secondary {
+    margin-top: 0;
+  }
 }
 
 /* ---- Empty state and footer ---- */
