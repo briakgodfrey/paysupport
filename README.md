@@ -85,6 +85,8 @@ These are demo credentials only, for the local stack and the browser demo below.
 
 ## Live demo (no setup)
 
+**Try it: [paysupportdemo.netlify.app](https://paysupportdemo.netlify.app/)**. Sign in as `engineer@paysupport.dev` with `password123`, run a reconciliation sweep, then investigate what it finds.
+
 The dashboard also runs as a **browser-only demo**: the same app, on sample data modelled on `db/seed.sql`, with [Mock Service Worker](https://mswjs.io) answering its API requests inside the browser. There's no server or database, so it costs nothing to host and nothing can go down. A banner on every page says it's a demo.
 
 Because the mock answers the dashboard's real network requests, the API client, its timeouts, and its Zod validation all run exactly as they do against the real API. The mock follows the API's rules (bearer tokens, 404s for unknown IDs, a 403 when support tries to sweep) and has its own tests in `web/src/demo/`, which also check that every demo response passes the dashboard's validation. None of it is included in the normal production build.
