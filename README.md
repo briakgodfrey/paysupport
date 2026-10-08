@@ -63,7 +63,7 @@ cd vendor-mock && npm install && npm run dev
 npm run dev
 ```
 
-**2. Dashboard** (needs Node 22.22 or newer):
+**2. Dashboard** (needs Node 22.22.2+ or 24.15+):
 
 ```bash
 cd web
@@ -81,7 +81,20 @@ Demo logins for the dashboard and the API (all use password `password123`), one 
 | `engineer@paysupport.dev` | engineer | Yes |
 | `support@paysupport.dev` | support | No (gets a 403) |
 
-These are local demo credentials only.
+These are demo credentials only, for the local stack and the browser demo below.
+
+## Live demo (no setup)
+
+The dashboard also runs as a **browser-only demo**: the same app, on sample data modelled on `db/seed.sql`, with [Mock Service Worker](https://mswjs.io) answering its API requests inside the browser. There's no server or database, so it costs nothing to host and nothing can go down. A banner on every page says it's a demo.
+
+Because the mock answers the dashboard's real network requests, the API client, its timeouts, and its Zod validation all run exactly as they do against the real API. The mock follows the API's rules (bearer tokens, 404s for unknown IDs, a 403 when support tries to sweep) and has its own tests in `web/src/demo/`, which also check that every demo response passes the dashboard's validation. None of it is included in the normal production build.
+
+```bash
+cd web
+npm run dev:demo     # run it locally
+npm run build:demo   # build it; netlify.toml deploys this to Netlify
+```
+
 
 ## Try the core workflow
 
@@ -136,6 +149,6 @@ Runs the typecheck, lint (including accessibility rules), and the test suite. Th
 ## What's deliberately out of scope
 
 - **No real payment processor integration.** The vendor is a mock by design: same shape as a real one, without the compliance overhead.
-- **No production deployment config beyond the Dockerfiles.** A real deploy would put the API on AWS via RDS + ECS/Lambda, with CloudWatch for the logging that's currently written to stdout, and serve the dashboard from the same origin behind a reverse proxy.
+- **The full stack isn't deployed.** The dashboard's browser-only demo is (see [Live demo](#live-demo-no-setup)), but the API, database, and vendor mock run locally with Docker Compose. Free hosting tiers sleep or expire, which makes a poor first impression, and an always-on database isn't worth paying for in a portfolio project. For a public full-stack demo I'd use a platform like Render, Railway, or Fly.io. A real production deploy would put the API on AWS via RDS + ECS/Lambda, with CloudWatch for the logging that's currently written to stdout, and serve the dashboard from the same origin behind a reverse proxy.
 - **The dashboard session lives in memory,** so refreshing the page signs you out. That keeps the token away from XSS. The production path is an httpOnly, Secure, SameSite cookie set by the API, which needs a logout endpoint and CSRF protection.
 - **Discrepancies can't be resolved from the dashboard yet.** The API has no endpoint for it, so the "Resolved" view explains that rather than pretending.

@@ -15,7 +15,10 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "dev:demo": "vite --mode demo",
+    "build:demo": "tsc -b && vite build --mode demo",
+    "preview:demo": "vite preview --mode demo"
   },
   "dependencies": {
     "react": "19.3.0",
@@ -43,5 +46,10 @@
     "typescript-eslint": "8.71.1",
     "vite": "8.3.3",
     "vitest": "5.0.3"
+  },
+  "msw": {
+    "workerDirectory": [
+      "demo-public"
+    ]
   }
 }

@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { Link, Outlet, useLocation } from "react-router";
 
 import { useSession } from "../auth/SessionContext";
+import { DemoBanner } from "../demo/DemoBanner";
+import { isDemoMode } from "../demo/isDemoMode";
 import { useApiHealth } from "../hooks/useApiHealth";
 import { formatRole } from "../lib/format";
 import { OutageBanner } from "./OutageBanner";
@@ -41,6 +43,8 @@ export function AppShell() {
       <a className="skip-link" href="#main">
         Skip to main content
       </a>
+
+      {isDemoMode ? <DemoBanner /> : null}
 
       <header className="app-header">
         <div className="app-header__inner">

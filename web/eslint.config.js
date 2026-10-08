@@ -30,7 +30,7 @@ const fetchRestriction = {
 };
 
 export default defineConfig(
-  globalIgnores(["dist", "coverage"]),
+  globalIgnores(["dist", "coverage", "demo-public"]),
 
   js.configs.recommended,
   tseslint.configs.strictTypeChecked,
