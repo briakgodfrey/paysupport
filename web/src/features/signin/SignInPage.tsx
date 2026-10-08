@@ -8,6 +8,7 @@ import { useSession, type SessionEndReason } from "../../auth/SessionContext";
 import { LiveRegion, Notice } from "../../components/Notice";
 import { Page } from "../../components/Page";
 import { TextField } from "../../components/TextField";
+import { isDemoMode } from "../../demo/isDemoMode";
 import { SIGN_IN_FIELD_ORDER, validateSignIn, type SignInField, type SignInFieldErrors } from "./signInValidation";
 import "./SignInPage.css";
 
@@ -226,13 +227,15 @@ export function SignInPage() {
             </form>
 
             {/*
-              Development builds only. Vite replaces import.meta.env.DEV with
-              `false` in production builds and the bundler drops this block, so
-              demo credentials never ship in deployed code.
+              Development and demo builds only. Vite replaces both flags with
+              constants at build time and the bundler drops this block from
+              the normal production build, so these logins never ship there.
+              In the demo they're sample accounts for the in-browser mock, and
+              the list starts open so visitors can sign in straight away.
             */}
-            {import.meta.env.DEV ? (
-              <details className="sign-in__demo">
-                <summary>Demo accounts (development only)</summary>
+            {import.meta.env.DEV || isDemoMode ? (
+              <details className="sign-in__demo" open={isDemoMode}>
+                <summary>{isDemoMode ? "Demo accounts" : "Demo accounts (development only)"}</summary>
                 <p>
                   Password for all: <code>password123</code>
                 </p>

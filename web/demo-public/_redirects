@@ -1,0 +1,2 @@
+# Netlify: send every path to the app, so shared /diagnose/... links load.
+/*  /index.html  200

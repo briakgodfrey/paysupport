@@ -1,0 +1,25 @@
+/*
+ * Demo banner: a full-width strip above the header in the demo build.
+ * The bottom rule keeps it distinct from the header even without colour.
+ */
+
+.demo-banner {
+  border-bottom: var(--border-width) solid var(--color-info-fg);
+  background: var(--color-info-bg);
+  color: var(--color-info-fg);
+  font-size: var(--font-size-sm);
+}
+
+.demo-banner__inner {
+  max-width: var(--size-content-max);
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-5);
+  text-align: center;
+}
+
+@media (max-width: 40rem) {
+  .demo-banner__inner {
+    padding-inline: var(--space-4);
+    text-align: left;
+  }
+}

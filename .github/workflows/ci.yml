@@ -93,3 +93,14 @@ jobs:
       # Proves the production build works, including the Content Security Policy plugin.
       - name: Production build
         run: npm run build
+      # The demo's in-browser mock must never ship in the real app. Fails if
+      # the production build contains Mock Service Worker or the demo logins.
+      - name: Production build has no demo code
+        run: |
+          if grep -rqE "setupWorker|mockServiceWorker|paysupport\.dev" dist; then
+            echo "Demo code found in the production build" >&2
+            exit 1
+          fi
+      # Proves the browser-only demo (deployed by netlify.toml) still builds.
+      - name: Demo build
+        run: npm run build:demo

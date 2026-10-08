@@ -91,6 +91,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), contentSecurityPolicy(env.VITE_API_BASE_URL)],
+    // The demo build ships the Mock Service Worker script and a static-host
+    // fallback rule; the normal build has no public folder at all.
+    publicDir: mode === "demo" ? "demo-public" : false,
     server: {
       port: 5173,
       // Fail loudly if 5173 is taken instead of silently moving ports, so the

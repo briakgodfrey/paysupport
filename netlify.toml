@@ -1,0 +1,23 @@
+# Netlify deploys the browser-only demo of the dashboard (web/), free, with
+# no server or database: an in-browser mock stands in for the API.
+# See "Live demo" in the README.
+
+[build]
+  base = "web"
+  command = "npm run build:demo"
+  publish = "dist"
+
+[build.environment]
+  # web/package.json requires Node 22.22.2+ or 24.15+.
+  NODE_VERSION = "24"
+
+# The build also puts this policy in a <meta> tag (see web/vite.config.ts).
+# Sending it as a header too adds what a meta tag can't: frame-ancestors,
+# which stops other sites from framing the dashboard (clickjacking).
+# Keep the two in sync if either changes.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

@@ -18,6 +18,12 @@ const DIAGNOSE_URL = "*/api/transactions/:id/diagnose";
 async function openDiagnosis(id: string) {
   const view = renderApp(`/diagnose/${id}`);
   await signIn(view.user);
+  // signIn returns once the header shows "Sign out", which can be a render
+  // before the diagnosis page mounts. The sign-in page has its own
+  // role="alert" region, so a test that looked up the alert straight away
+  // could grab that one instead. Waiting for this page's heading means only
+  // the diagnosis page's alert region exists.
+  await screen.findByRole("heading", { level: 1, name: "Transaction diagnosis" });
   return view;
 }
 
