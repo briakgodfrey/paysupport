@@ -1,5 +1,7 @@
 # PaySupport Dashboard
 
+[![CI](https://github.com/briakgodfrey/paysupport/actions/workflows/ci.yml/badge.svg)](https://github.com/briakgodfrey/paysupport/actions/workflows/ci.yml)
+
 I built PaySupport because I wanted to apply for a support engineering role, and I didn't want to just say I understood the job. I wanted to build the tool I'd want on my first day.
 
 I've spent more than ten years helping people untangle problems with services they depend on. Right now that's as an Operations Lead, where most of my day is time-sensitive problems with someone waiting on the other end. So when I imagined a support engineer opening this dashboard, I didn't picture someone calmly exploring it. I pictured someone mid-ticket, with a customer asking where their money went.

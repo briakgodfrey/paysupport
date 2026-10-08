@@ -1,0 +1,95 @@
+# Runs every check on each push to main and on every pull request, so a
+# change can't land with failing tests, lint, or a broken build.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: the workflow only needs to read the code. If a
+# dependency were ever compromised, it couldn't push commits or edit the repo.
+permissions:
+  contents: read
+
+# A newer push to the same branch makes the older run pointless, so cancel it.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Current Node LTS. The dashboard needs 22.22 or newer (see web/package.json).
+  NODE_VERSION: "24"
+
+# Third-party actions are pinned to full commit hashes, not version tags.
+# A tag can be moved to point at different code; a commit hash can't, so a
+# compromised action release can't silently change what runs here. The
+# comment after each hash records the version for humans and for updates.
+
+jobs:
+  api:
+    name: API (typecheck and tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Don't leave the GitHub token in .git/config for later steps to find.
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+      # npm ci installs exactly what the lockfile says, so CI tests the same
+      # dependency tree everyone else gets (npm install could drift).
+      - run: npm ci
+      - name: Typecheck
+        run: npm run lint
+      - name: Tests
+        run: npm test
+
+  vendor-mock:
+    name: Processor mock (build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: vendor-mock
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: vendor-mock/package-lock.json
+      - run: npm ci
+      - name: Typecheck and build
+        run: npm run build
+
+  web:
+    name: Dashboard (typecheck, lint, tests, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      # Typecheck, lint (including the accessibility and security rules), and
+      # every test, including the axe accessibility checks.
+      - name: Check
+        run: npm run check
+      # Proves the production build works, including the Content Security Policy plugin.
+      - name: Production build
+        run: npm run build

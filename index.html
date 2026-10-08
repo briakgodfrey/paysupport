@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brianna Godfrey: product designer and front-end developer</title>
+<meta name="description" content="Portfolio of Brianna Godfrey, a Charlotte product designer who also writes the front-end code.">
+<meta name="theme-color" content="#F7F5F1">
+<script>try { if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="index.html">Brianna Godfrey<span>.</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">product designer + front-end developer</span>
+      <h1>I design the small decisions that make software feel considered. <em>Then I build them.</em></h1>
+      <p class="hero-sub">Computer science background, self-taught design practice. I take work from the first layout decision to a live URL, and I write down why I made each choice along the way.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#work">See the work</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        <a class="btn-link" href="Brianna-Godfrey-Resume.pdf" target="_blank" rel="noopener">Download resume</a>
+      </div>
+      <ul class="hero-facts">
+        <li>Charlotte, NC</li>
+        <li>Figma · Adobe XD · Illustrator</li>
+        <li>JavaScript · Python · React · Django</li>
+        <li>Open to product design and developer roles</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story" aria-labelledby="story-title">
+  <div class="wrap">
+    <div class="story-track">
+      <div class="story-pin">
+        <div class="story-text">
+          <span class="eyebrow">~/design-to-code</span>
+          <h2 id="story-title">One button, from design to code.</h2>
+          <ol class="story-steps">
+            <li class="is-on"><b>01 · the design</b>A button a first-time client actually wants to press.</li>
+            <li><b>02 · the spec</b>52px tall, 28px padding, 7.1:1 contrast. Every number has a reason.</li>
+            <li><b>03 · the code</b>The same decisions, written so they ship exactly as designed.</li>
+          </ol>
+          <div class="story-progress" aria-hidden="true"><i></i></div>
+          <p class="story-caption">From Helix &amp; Hue Studio, a concept site I designed and built.</p>
+        </div>
+        <div class="morph" data-step="0">
+          <span class="morph-note morph-note-top" aria-hidden="true">padding 0 28px · radius full</span>
+          <span class="morph-btn" aria-hidden="true">Book a visit →</span>
+          <span class="morph-note morph-note-bottom" aria-hidden="true">honey on forest · 7.1:1 contrast</span>
+          <pre class="code morph-code"><code><span class="c">/* Helix &amp; Hue: the Book a visit button */</span>
+<span class="k">.btn-accent</span> {
+  min-height: <span class="n">52px</span>;
+  padding: <span class="n">0 28px</span>;
+  border-radius: <span class="n">999px</span>;
+  background: <span class="s">#E3A857</span>;
+  color: <span class="s">#1E2A23</span>;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">~/work</span>
+        <h2 id="work-title">Selected work</h2>
+      </div>
+      <p>Five projects, each written up from problem to outcome. Most of them I designed and then built myself.</p>
+    </div>
+    <div class="work-grid">
+      <a class="project-card is-featured" href="work/paysupport.html">
+        <div class="stage stage-paysupport"><img src="images/paysupport.jpg" width="1440" height="900" alt="The PaySupport workspace: headline metrics, a transaction lookup, and the discrepancy queue" loading="lazy"></div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-type">Full-stack project, designed and built</span><span class="disciplines"><span class="disc disc-design">Design</span><span class="disc disc-code">Code</span><span class="disc disc-security">Security</span></span></div>
+          <h3>PaySupport</h3>
+          <p>A payment support dashboard and API that compares a company's ledger with what the processor actually recorded, then tells a support engineer what went wrong and what to tell the customer.</p>
+          <span class="project-more">Read the case study</span>
+        </div>
+      </a>
+      <a class="project-card" href="work/weekflow.html">
+        <div class="stage stage-weekflow"><img src="images/weekflow.jpg" width="1440" height="1000" alt="Weekflow showing a sample week: tasks grouped into sections with time estimates, plus the focus timer, progress count and backup controls in the sidebar" loading="lazy"></div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-type">Shipped product, in daily use</span><span class="disciplines"><span class="disc disc-design">Design</span><span class="disc disc-code">Code</span></span></div>
+          <h3>Weekflow</h3>
+          <p>A browser-based planner built on a simple constraint: no accounts, no cloud sync, no subscription. Just open it and plan.</p>
+          <span class="project-more">Read the case study</span>
+        </div>
+      </a>
+      <a class="project-card" href="work/ironclad-fc.html">
+        <div class="stage stage-ironclad"><img src="images/ironclad-fc.jpg" width="1440" height="753" alt="Charlotte Ironclad FC marketing site showing the hero section, ticker strip, and team content" loading="lazy"></div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-type">Concept site, designed and built</span><span class="disciplines"><span class="disc disc-design">Design</span><span class="disc disc-code">Code</span></span></div>
+          <h3>Charlotte Ironclad FC</h3>
+          <p>A concept marketing site for a fictional Charlotte soccer club, built to design a full sports funnel: awareness through the hero, to a ticket purchase CTA.</p>
+          <span class="project-more">Read the case study</span>
+        </div>
+      </a>
+      <a class="project-card" href="work/palette.html">
+        <div class="stage stage-palette stage-phones"><img src="images/palette-1.png" width="352" height="762" alt="Onboarding screen: pick a few styles to start" loading="lazy"><img src="images/palette-2.png" width="442" height="954" alt="Discovery feed with a masonry grid and one-tap save" loading="lazy"><img src="images/palette-3.png" width="376" height="812" alt="Item detail with tags and a Save to Board button" loading="lazy"></div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-type">Concept, design only</span><span class="disciplines"><span class="disc disc-design">Design</span></span></div>
+          <h3>Palette</h3>
+          <p>A self-directed concept project: a full mobile app flow for browsing, saving, and organizing home design inspiration, designed to prove I can think in systems and flows, not just individual screens.</p>
+          <span class="project-more">Read the case study</span>
+        </div>
+      </a>
+      <a class="project-card" href="work/helix-hue.html">
+        <div class="stage stage-helix"><img src="images/helix-hue.jpg" width="1440" height="900" alt="Helix &amp; Hue Studio homepage hero with the headline, a Book a visit button, and a curly portrait beside it" loading="lazy"></div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-type">Concept, UX research and build</span><span class="disciplines"><span class="disc disc-design">Design</span><span class="disc disc-code">Code</span></span></div>
+          <h3>Helix & Hue Studio</h3>
+          <p>A responsive site and UX case study for a curly and coily hair stylist in Charlotte, built around one question new clients ask first: does she do hair like mine?</p>
+          <span class="offer-tag">Available for stylists</span>
+          <span class="project-more">Read the case study</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap about-grid">
+    <div class="about-intro">
+      <span class="eyebrow">~/about</span>
+      <h2 id="about-title">A designer who writes the code, so nothing gets lost in the handoff.</h2>
+      <p>Weekflow started as a planner for my own week. It's still in daily use, mine and a few coworkers' who now run real day-to-day operations through it, and every complaint that's come up has gone back into the design.</p>
+      <p>That's the loop I care about: ship it, watch real people use it, fix what's actually broken rather than what just looks broken. It's the same standard I hold every concept to before it's ever built.</p>
+    </div>
+       <div class="toolkits">
+      <div class="toolkit toolkit-design">
+        <h3>design</h3>
+        <p>Research, flows and interfaces, with a written reason behind each decision.</p>
+        <ul>
+          <li>Figma</li><li>Adobe XD</li><li>Illustrator</li><li>UX research</li><li>User flows</li><li>Wireframing</li><li>Visual identity</li><li>Design systems</li><li>Accessibility</li>
+        </ul>
+      </div>
+      <div class="toolkit toolkit-code">
+        <h3>code</h3>
+        <p>Responsive front ends and the APIs behind them, from plain JavaScript to React and Django.</p>
+        <h4>Languages</h4>
+        <ul>
+          <li>JavaScript</li><li>Python</li><li>HTML</li><li>CSS</li><li>Sass / SCSS</li><li>SQL</li><li>PHP</li>
+        </ul>
+        <h4>Frameworks and tools</h4>
+        <ul>
+          <li>React</li><li>Django</li><li>REST APIs</li><li>Bootstrap 5</li><li>Git + GitHub</li><li>VS Code</li><li>JetBrains IDEs</li><li>Generative AI tools (Claude)</li>
+        </ul>
+      </div>
+      <div class="toolkit toolkit-security">
+        <h3>security + systems</h3>
+        <p>Building with security in mind, currently studying for CompTIA Security+.</p>
+        <ul>
+          <li>Application security</li><li>Network security</li><li>Linux</li><li>Wireshark</li><li>TCP/IP</li>
+        </ul>
+      </div>
+      <div class="toolkit toolkit-work">
+        <h3>how I work</h3>
+        <p>The habits that keep a project moving once other people are involved.</p>
+        <ul>
+          <li>Agile / Scrum</li><li>Object-oriented design</li><li>Technical documentation</li><li>Data validation</li><li>Troubleshooting</li><li>Cross-team communication</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <span class="eyebrow">~/contact</span>
+    <h2 id="contact-title" class="fill-text">I design it, build it, and keep improving it after launch.</h2>
+    <a class="contact-email" href="mailto:briakgodfrey@gmail.com">briakgodfrey@gmail.com</a>
+    <ul class="contact-links">
+      <li><a href="Brianna-Godfrey-Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="https://github.com/briakgodfrey" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/briakgodfrey" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://briabytes.com" target="_blank" rel="noopener">Blog</a></li>
+    </ul>
+    <footer class="site-footer">
+      <span>&copy; <span data-year>2026</span> Brianna Godfrey</span>
+      <span>Designed and built by hand in HTML, CSS and JavaScript</span>
+    </footer>
+  </div>
+</section>
+<script src="js/main.js" defer></script>
+</body>
+</html>
