@@ -51,9 +51,9 @@ An engineer can:
 
 ## Security decisions
 
-My degree focused on cybersecurity, so I tried to treat security as part of the design rather than a checklist at the end. Each of these has a comment in the code explaining the threat it's there for.
+Security is an area I keep studying, so I tried to treat security as part of the design rather than a checklist at the end. Each of these has a comment in the code explaining the threat it's there for.
 
-- **The session token lives in memory only.** It's never in `localStorage`, `sessionStorage`, or a cookie, and it isn't even exposed to components, so an XSS bug can't read it and no component can log it. The tradeoff is real: refreshing the page signs you out. The production answer is an httpOnly, Secure, SameSite cookie from the API, which needs backend work I've documented rather than half-built.
+- **The session token lives in memory only.** It's never in `localStorage`, `sessionStorage`, or a cookie, and it isn't even exposed to components, so an XSS bug can't lift it out of storage and no component can log it. That limits the damage, but it doesn't make XSS harmless: injected script could still act within the page while the session is open, which is why the Content Security Policy below matters. The tradeoff is real: refreshing the page signs you out. The production answer is an httpOnly, Secure, SameSite cookie from the API, which needs backend work I've documented rather than half-built.
 - **The API is treated as untrusted input.** Every response is validated at runtime with Zod before the UI touches it. Unknown fields are dropped, and a malformed token is rejected before it can reach an `Authorization` header.
 - **A strict Content Security Policy** on production builds: scripts, styles, and requests only from our own origin. I didn't just write it, I tested it. In the real production build, I injected an inline script into the live page, and the browser refused to run it.
 - **The lint rules make unsafe code fail the checks.** `dangerouslySetInnerHTML`, inline styles, `localStorage`, calling `fetch` outside the API client, and `console` are all banned, so a future change can't quietly bring them back.

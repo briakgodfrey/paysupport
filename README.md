@@ -1,5 +1,11 @@
 # PaySupport: Transaction Diagnostics & Reconciliation
 
+**[Live demo](https://paysupportdemo.netlify.app/)** · **[Case study](https://briakgodfrey.com/work/paysupport.html)** · **[Dashboard design notes](web/README.md)**
+
+Designed and built end to end by [Brianna Godfrey](https://briakgodfrey.com): the dashboard's UX and visual design, and the API underneath it.
+
+![The PaySupport workspace: headline metrics, a transaction lookup, and the discrepancy queue](web/docs/screenshots/02-workspace.png)
+
 A full-stack project (Express API + React dashboard) built to mirror the day-to-day of a **fintech production support / support engineering** role: a customer reports a problem with their money, and you have to cross-reference internal SQL records against a third-party vendor (card network / ACH processor) API to figure out what actually happened. Then automate that investigation so it doesn't have to be done by hand every time.
 
 ## The problem it solves
@@ -152,5 +158,5 @@ Runs the typecheck, lint (including accessibility rules), and the test suite. Th
 
 - **No real payment processor integration.** The vendor is a mock by design: same shape as a real one, without the compliance overhead.
 - **The full stack isn't deployed.** The dashboard's browser-only demo is (see [Live demo](#live-demo-no-setup)), but the API, database, and vendor mock run locally with Docker Compose. Free hosting tiers sleep or expire, which makes a poor first impression, and an always-on database isn't worth paying for in a portfolio project. For a public full-stack demo I'd use a platform like Render, Railway, or Fly.io. A real production deploy would put the API on AWS via RDS + ECS/Lambda, with CloudWatch for the logging that's currently written to stdout, and serve the dashboard from the same origin behind a reverse proxy.
-- **The dashboard session lives in memory,** so refreshing the page signs you out. That keeps the token away from XSS. The production path is an httpOnly, Secure, SameSite cookie set by the API, which needs a logout endpoint and CSRF protection.
+- **The dashboard session lives in memory,** so refreshing the page signs you out. That keeps the token out of browser storage, where an XSS bug could read it and take it elsewhere, but it doesn't remove XSS risk: injected script could still act within the page while the session is open. The strict Content Security Policy is the main defense there. The production path is an httpOnly, Secure, SameSite cookie set by the API, which needs a logout endpoint and CSRF protection.
 - **Discrepancies can't be resolved from the dashboard yet.** The API has no endpoint for it, so the "Resolved" view explains that rather than pretending.
